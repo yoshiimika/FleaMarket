@@ -12,7 +12,6 @@ class Item extends Model
     protected $fillable = [
         'user_id',
         'brand_id',
-        'category_id',
         'name',
         'description',
         'price',
@@ -48,5 +47,15 @@ class Item extends Model
     public function brand()
     {
         return $this->belongsTo(Brand::class);
+    }
+
+    public function getFavoritesCountAttribute()
+    {
+        return $this->favoriteByUsers()->count();
+    }
+
+    public function getCommentsCountAttribute()
+    {
+        return $this->comments()->count();
     }
 }

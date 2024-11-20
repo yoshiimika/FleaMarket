@@ -35,7 +35,6 @@ Route::prefix('item')->group(function () {
     // いいね機能（お気に入り登録/解除）
     Route::middleware('auth')->post('/{item_id}/favorite', [FavoriteController::class, 'toggle'])
     ->name('item.favorite');
-    // コメント機能
     Route::middleware('auth')->post('/{item_id}/comment', [CommentController::class, 'store'])
     ->name('item.comment.store');
 });
@@ -67,7 +66,8 @@ Route::prefix('mypage')->group(function () {
     ->name('profile');
     Route::get('/profile', [UserController::class, 'editProfile'])
     ->name('profile.edit');
-    Route::post('/profile', [UserController::class, 'updateProfile']);
+    Route::post('/profile', [UserController::class, 'updateProfile'])
+    ->name('profile.update');
     Route::get('/?page=buy', [UserController::class, 'showPurchasedItems'])
     ->name('profile.purchased');
     Route::get('/?page=sell', [UserController::class, 'showSoldItems'])

@@ -18,7 +18,11 @@ class ItemController extends Controller
     {
     if (auth()->check()) {
         $user = auth()->user();
-        $favoriteItems = $user->favorites()->with('item')->get();
+        $favoriteItems = \DB::table('favorites')
+            ->join('items', 'favorites.item_id', '=', 'items.id')
+            ->where('favorites.user_id', auth()->id())
+            ->select('items.*')
+            ->get();
     } else {
         $favoriteItems = collect();
     }
@@ -28,8 +32,7 @@ class ItemController extends Controller
     public function show($item_id)
     {
         $item = Item::with(['brand', 'categories', 'comments.user'])->findOrFail($item_id);
-        $comments = $item->comments;
-        return view('item', compact('item', 'comments'));
+        return view('item', compact('item'));
     }
 
     public function search(Request $request)
