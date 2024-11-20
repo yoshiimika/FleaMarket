@@ -1,0 +1,83 @@
+.purchase-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+.purchase-details {
+    width: 60%;
+}
+
+.purchase-item {
+    display: flex;
+    align-items: center;
+}
+
+.purchase-item__image {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    margin-right: 20px;
+}
+
+.purchase-item__info {
+    flex-grow: 1;
+}
+
+.purchase-item__name {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.purchase-item__price {
+    font-size: 16px;
+    color: #333;
+}
+
+.purchase-method,
+.purchase-address {
+    margin: 20px 0;
+}
+
+.purchase-method__select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.purchase-address__change-link {
+    color: blue;
+    text-decoration: underline;
+    font-size: 14px;
+}
+
+.purchase-summary {
+    width: 35%;
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.summary-box {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.summary-box__item {
+    font-weight: bold;
+}
+
+.purchase-summary__button {
+    width: 100%;
+    padding: 15px;
+    background-color: red;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+}

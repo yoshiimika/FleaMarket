@@ -11,6 +11,7 @@ class Item extends Model
 
     protected $fillable = [
         'user_id',
+        'brand_id',
         'category_id',
         'name',
         'description',
@@ -42,5 +43,10 @@ class Item extends Model
     public function categories()
     {
         return $this->belongsToMany(Category::class, 'category_items');
+    }
+
+    public function brand()
+    {
+        return $this->belongsTo(Brand::class);
     }
 }

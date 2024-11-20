@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
+use App\Models\Item;
 use Illuminate\Http\Request;
 
 class FavoriteController extends Controller
@@ -11,8 +11,8 @@ class FavoriteController extends Controller
     public function toggle($item_id)
     {
         $user = auth()->user();
-        $product = Product::findOrFail($item_id);
-        if ($user->favorites()->where('product_id', $item_id)->exists()) {
+        $item = Item::findOrFail($item_id);
+        if ($user->favorites()->where('item_id', $item_id)->exists()) {
             $user->favorites()->detach($item_id);
             return back()->with('success', 'お気に入りを解除しました');
         } else {

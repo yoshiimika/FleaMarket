@@ -20,30 +20,28 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// ホームページと商品一覧
 Route::get('/', [ItemController::class, 'index'])
 ->name('home');
-Route::get('/?page=mylist', [ItemController::class, 'myList'])
+Route::get('/mylist', [ItemController::class, 'myList'])
 ->name('mylist');
 
-// 商品検索機能
 Route::get('/search', [ItemController::class, 'search'])
-->name('product.search');
+->name('item.search');
 
 // 商品関連のルーティング
 Route::prefix('item')->group(function () {
     Route::get('/{item_id}', [ItemController::class, 'show'])
-    ->name('product.show');
+    ->name('item.show');
     // いいね機能（お気に入り登録/解除）
-    Route::post('/{item_id}/favorite', [FavoriteController::class, 'toggle'])
-    ->name('product.favorite');
+    Route::middleware('auth')->post('/{item_id}/favorite', [FavoriteController::class, 'toggle'])
+    ->name('item.favorite');
     // コメント機能
-    Route::post('/{item_id}/comment', [CommentController::class, 'store'])
-    ->name('product.comment.store');
+    Route::middleware('auth')->post('/{item_id}/comment', [CommentController::class, 'store'])
+    ->name('item.comment.store');
 });
 
 // 購入関連のルーティング
-Route::prefix('purchase')->group(function () {
+Route::middleware('auth')->prefix('purchase')->group(function () {
     Route::get('/{item_id}', [PurchaseController::class, 'showPurchaseForm'])
     ->name('purchase.show');
     Route::post('/{item_id}', [PurchaseController::class, 'purchase']);
@@ -60,7 +58,7 @@ Route::prefix('sell')->group(function () {
     ->name('sell.store');
     // 商品画像アップロード機能
     Route::post('/{item_id}/upload-image', [ListingController::class, 'uploadImage'])
-    ->name('product.upload_image');
+    ->name('item.upload_image');
 });
 
 // マイページ関連のルーティング

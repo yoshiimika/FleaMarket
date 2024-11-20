@@ -20,6 +20,7 @@ class ItemsTableSeeder extends Seeder
             [
                 'user_id' => 1,
                 'categories' => [1, 5],
+                'brand_id' => 21,
                 'name' => '腕時計',
                 'description' => 'スタイリッシュなデザインのメンズ腕時計',
                 'price' => 15000,
@@ -29,6 +30,7 @@ class ItemsTableSeeder extends Seeder
             [
                 'user_id' => 1,
                 'categories' => [2],
+                'brand_id' => 6,
                 'name' => 'HDD',
                 'description' => '高速で信頼性の高いハードディスク',
                 'price' => 5000,
@@ -38,6 +40,7 @@ class ItemsTableSeeder extends Seeder
             [
                 'user_id' => 1,
                 'categories' => [10],
+                'brand_id' => null,
                 'name' => '玉ねぎ3束',
                 'description' => '新鮮な玉ねぎ3束のセット',
                 'price' => 300,
@@ -47,6 +50,7 @@ class ItemsTableSeeder extends Seeder
             [
                 'user_id' => 1,
                 'categories' => [1, 5],
+                'brand_id' => 1,
                 'name' => '革靴',
                 'description' => 'クラシックなデザインの革靴',
                 'price' => 4000,
@@ -56,6 +60,7 @@ class ItemsTableSeeder extends Seeder
             [
                 'user_id' => 1,
                 'categories' => [2],
+                'brand_id' => 7,
                 'name' => 'ノートPC',
                 'description' => '高性能なノートパソコン',
                 'price' => 45000,
@@ -65,6 +70,7 @@ class ItemsTableSeeder extends Seeder
             [
                 'user_id' => 1,
                 'categories' => [2],
+                'brand_id' => null,
                 'name' => 'マイク',
                 'description' => '高音質のレコーディング用マイク',
                 'price' => 8000,
@@ -74,6 +80,7 @@ class ItemsTableSeeder extends Seeder
             [
                 'user_id' => 1,
                 'categories' => [1, 4],
+                'brand_id' => 18,
                 'name' => 'ショルダーバッグ',
                 'description' => 'おしゃれなショルダーバッグ',
                 'price' => 3500,
@@ -83,6 +90,7 @@ class ItemsTableSeeder extends Seeder
             [
                 'user_id' => 1,
                 'categories' => [10],
+                'brand_id' => 46,
                 'name' => 'タンブラー',
                 'description' => '使いやすいタンブラー',
                 'price' => 500,
@@ -92,6 +100,7 @@ class ItemsTableSeeder extends Seeder
             [
                 'user_id' => 1,
                 'categories' => [10],
+                'brand_id' => null,
                 'name' => 'コーヒーミル',
                 'description' => '手動のコーヒーミル',
                 'price' => 4000,
@@ -101,6 +110,7 @@ class ItemsTableSeeder extends Seeder
             [
                 'user_id' => 1,
                 'categories' => [4, 6],
+                'brand_id' => 28,
                 'name' => 'メイクセット',
                 'description' => '便利なメイクアップセット',
                 'price' => 2500,
@@ -109,22 +119,18 @@ class ItemsTableSeeder extends Seeder
             ],
         ];
         foreach ($items as $itemData) {
-            // カテゴリ情報を別に取り出し、アイテムデータから削除
             $categories = $itemData['categories'];
             unset($itemData['categories']);
 
-            // 画像をダウンロードしてストレージに保存
-            $imageName = basename($itemData['img_url']);
+            $imageName = rawurldecode(basename($itemData['img_url']));
             $imageContent = file_get_contents($itemData['img_url']);
             Storage::put('public/item-images/' . $imageName, $imageContent);
             $storedImagePath = 'storage/item-images/' . $imageName;
-
-            // アイテムデータに保存先の画像URLを設定
             $itemData['img_url'] = $storedImagePath;
 
-            // アイテムをデータベースに挿入
             $item = Item::create([
                 'user_id' => $itemData['user_id'],
+                'brand_id' => $itemData['brand_id'],
                 'name' => $itemData['name'],
                 'description' => $itemData['description'],
                 'price' => $itemData['price'],
@@ -132,7 +138,6 @@ class ItemsTableSeeder extends Seeder
                 'img_url' => $itemData['img_url'],
             ]);
 
-            // 中間テーブルにカテゴリを関連付け
             $item->categories()->attach($categories);
         }
     }
