@@ -22,8 +22,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [ItemController::class, 'index'])
 ->name('home');
-Route::get('/mylist', [ItemController::class, 'myList'])
-->name('mylist');
 
 Route::get('/search', [ItemController::class, 'search'])
 ->name('item.search');

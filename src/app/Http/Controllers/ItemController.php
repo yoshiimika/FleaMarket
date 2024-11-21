@@ -8,25 +8,24 @@ use Illuminate\Support\Facades\Auth;
 
 class ItemController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $items = Item::where('is_sold', false)->latest()->paginate(50);
-        return view('index', compact('items'));
-    }
-
-    public function myList()
-    {
-    if (auth()->check()) {
-        $user = auth()->user();
-        $favoriteItems = \DB::table('favorites')
-            ->join('items', 'favorites.item_id', '=', 'items.id')
-            ->where('favorites.user_id', auth()->id())
-            ->select('items.*')
-            ->get();
-    } else {
+        $tab = $request->query('tab', 'recommend');
+        $items = collect();
         $favoriteItems = collect();
-    }
-    return view('mylist', compact('favoriteItems'));
+        if ($tab === 'mylist') {
+            if (auth()->check()) {
+                $user = auth()->user();
+                $items = \DB::table('favorites')
+                    ->join('items', 'favorites.item_id', '=', 'items.id')
+                    ->where('favorites.user_id', $user->id)
+                    ->select('items.*')
+                    ->get();
+            }
+        } else {
+            $items = Item::where('is_sold', false)->latest()->paginate(50);
+        }
+        return view('index', compact('tab', 'items'));
     }
 
     public function show($item_id)
