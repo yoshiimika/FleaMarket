@@ -10,10 +10,9 @@ class ItemController extends Controller
 {
     public function index(Request $request)
     {
-        $tab = $request->query('tab', 'recommend');
+        $page = $request->query('page', 'recommend');
         $items = collect();
-        $favoriteItems = collect();
-        if ($tab === 'mylist') {
+        if ($page === 'mylist') {
             if (auth()->check()) {
                 $user = auth()->user();
                 $items = \DB::table('favorites')
@@ -25,7 +24,7 @@ class ItemController extends Controller
         } else {
             $items = Item::where('is_sold', false)->latest()->paginate(50);
         }
-        return view('index', compact('tab', 'items'));
+        return view('index', compact('page', 'items'));
     }
 
     public function show($item_id)

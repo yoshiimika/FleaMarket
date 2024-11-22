@@ -1,0 +1,124 @@
+.mypage-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 2vh 20vw;
+}
+
+.mypage-header__profile {
+    display: flex;
+    align-items: center;
+    gap: 50px;
+}
+
+.mypage-header__avatar {
+    flex-shrink: 0;
+}
+
+.mypage-header__avatar-img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    background-color: #ccc;
+}
+
+.mypage-header__info {
+    text-align: left;
+}
+
+.mypage-header__name {
+    font-size: 1.8em;
+    font-weight: bold;
+    margin: 0;
+}
+
+.mypage-header__button {
+    flex-shrink: 0;
+}
+
+.mypage-header__edit-button {
+    display: inline-block;
+    font-size: 0.9em;
+    color: #ff4d4f;
+    padding: 5px 15px;
+    border: 1px solid #ff4d4f;
+    border-radius: 5px;
+    text-decoration: none;
+    background-color: #fff;
+    font-weight: bold;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.mypage-header__edit-button:hover {
+    background-color: #ff4d4f;
+    /* ホバー時の背景色を赤に */
+    color: #fff;
+    /* ホバー時の文字色を白に */
+}
+
+.mypage-pages {
+    border-bottom: 2px solid black;
+    padding-top: 25px;
+    padding-left: 50px;
+    padding-bottom: 10px;
+}
+
+.mypage-pages__page {
+    margin-right: 25px;
+    font-weight: bold;
+    color: black;
+    text-decoration: none;
+}
+
+.mypage-pages__page--active {
+    margin-right: 25px;
+    font-weight: bold;
+    color: red;
+    text-decoration: none;
+}
+
+.mypage-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 25px;
+    padding: 50px;
+}
+
+.mypage-item-card {
+    width: calc(25% - 20px);
+    height: fit-content;
+}
+
+.mypage-item-card:hover {
+    transform: translateY(-5px);
+}
+
+.mypage-item-card__image {
+    width: 100%;
+}
+
+.mypage-item-card__image-img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    display: block;
+}
+
+.mypage-item-card__name {
+    margin-top: 10px;
+    font-size: 1em;
+    font-weight: bold;
+}
+
+@media (max-width: 850px) {
+    .mypage-item-card {
+        width: calc(50% - 20px);
+    }
+}
+
+@media (max-width: 480px) {
+    .mypage-item-card {
+        width: 100%;
+    }
+}

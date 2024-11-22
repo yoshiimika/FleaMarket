@@ -2,14 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Item;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    public function showProfile()
+    public function showProfile(Request $request)
     {
         $user = auth()->user();
-        return view('mypage.mypage', compact('user'));
+        $page = $request->query('page', 'sell');
+        if ($page === 'sell') {
+            $items = Item::where('user_id', $user->id)->get();
+        } elseif ($page === 'buy') {
+            $items = $user->purchasedItems ?? collect();
+        } else {
+            $items = collect();
+        }
+        return view('mypage.mypage', compact('user', 'page', 'items'));
     }
 
     public function editProfile()

@@ -26,7 +26,6 @@ Route::get('/', [ItemController::class, 'index'])
 Route::get('/search', [ItemController::class, 'search'])
 ->name('item.search');
 
-// 商品関連のルーティング
 Route::prefix('item')->group(function () {
     Route::get('/{item_id}', [ItemController::class, 'show'])
     ->name('item.show');
@@ -48,7 +47,7 @@ Route::middleware('auth')->prefix('purchase')->group(function () {
 });
 
 // 出品関連のルーティング
-Route::prefix('sell')->group(function () {
+Route::middleware('auth')->prefix('sell')->group(function () {
     Route::get('/', [ListingController::class, 'create'])
     ->name('sell');
     Route::post('/', [ListingController::class, 'store'])
@@ -58,16 +57,11 @@ Route::prefix('sell')->group(function () {
     ->name('item.upload_image');
 });
 
-// マイページ関連のルーティング
-Route::prefix('mypage')->group(function () {
+Route::middleware('auth')->prefix('mypage')->group(function () {
     Route::get('/', [UserController::class, 'showProfile'])
     ->name('profile');
     Route::get('/profile', [UserController::class, 'editProfile'])
     ->name('profile.edit');
     Route::post('/profile', [UserController::class, 'updateProfile'])
     ->name('profile.update');
-    Route::get('/?page=buy', [UserController::class, 'showPurchasedItems'])
-    ->name('profile.purchased');
-    Route::get('/?page=sell', [UserController::class, 'showSoldItems'])
-    ->name('profile.sold');
 });

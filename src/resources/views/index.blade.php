@@ -1,37 +1,37 @@
 @extends('layouts.app')
 
 @section('content')
-<link href="{{ asset('css/index.css') }}" rel="stylesheet">
+<link rel="stylesheet" href="{{ asset('css/index.css') }}">
 <div class="container">
-    <div class="tabs">
-        <a class="tabs__tab {{ request('tab') !== 'mylist' ? 'tabs__tab--active' : '' }}" href="{{ route('home') }}">
+    <div class="pages">
+        <a class="pages__page {{ request('page') !== 'mylist' ? 'pages__page--active' : '' }}" href="{{ route('home') }}">
             おすすめ
         </a>
-        <a class="tabs__tab {{ request('tab') === 'mylist' ? 'tabs__tab--active' : '' }}" href="{{ route('home', ['tab' => 'mylist']) }}">
+        <a class="pages__page {{ request('page') === 'mylist' ? 'pages__page--active' : '' }}" href="{{ route('home', ['page' => 'mylist']) }}">
             マイリスト
         </a>
     </div>
     <div class="items">
-        @if($tab === 'mylist')
+        @if($page === 'mylist')
             @if(auth()->check())
                 @if($items->isEmpty())
-                    <p class="no-items">マイリストに商品がありません。</p>
+                    <p class="no-items">マイリストに商品がありません</p>
                 @else
-                    <div class="items">
-                        @foreach($items as $item)
-                            <div class="item-card">
-                                <div class="item-card__image">
+                    @foreach($items as $item)
+                        <div class="item-card">
+                            <div class="item-card__image">
+                                <a href="{{ route('item.show', ['item_id' => $item->id]) }}">
                                     <img alt="商品画像" class="item-card__image-img" src="{{ asset($item->img_url) }}">
-                                </div>
-                                <div class="item-card__name">
-                                    {{ $item->name }}
-                                </div>
+                                </a>
                             </div>
-                        @endforeach
-                    </div>
+                            <div class="item-card__name">
+                                {{ $item->name }}
+                            </div>
+                        </div>
+                    @endforeach
                 @endif
             @else
-                <p class="not-authenticated">マイリストを表示するにはログインしてください。</p>
+                <p class="not-authenticated">マイリストを表示するにはログインしてください</p>
             @endif
         @else
             @foreach($items as $item)
@@ -49,5 +49,5 @@
         @endif
     </div>
 
- </div>
+</div>
 @endsection
