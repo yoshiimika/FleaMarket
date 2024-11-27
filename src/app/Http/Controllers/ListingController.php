@@ -2,40 +2,46 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ExhibitionRequest;
+use App\Models\Brand;
+use App\Models\Category;
 use App\Models\Item;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class ListingController extends Controller
 {
-    // 商品出品ページ表示
     public function create()
     {
-        return view('sell.sell'); // 出品ページの表示
+        $categories = Category::all();
+        $brands = Brand::all(['id', 'name']);
+        return view('sell.sell', compact('categories', 'brands'));
     }
 
-    // 商品出品処理
-    public function store(Request $request)
+    public function getBrands($categoryIds)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'required|string',
-            'price' => 'required|numeric|min:1',
-            'img_url' => 'nullable|image|max:2048',
-            'condition' => 'required|string|in:良好,やや傷あり,状態が悪い',
-        ]);
+        $ids = explode(',', $categoryIds);
+        $brands = Brand::whereIn('category_id', $ids)->get(['id', 'name']);
+        return response()->json($brands);
+    }
+
+    public function store(ExhibitionRequest $request)
+    {
+        $validated = $request->validated();
         $item = new Item();
-        $item->name = $request->name;
-        $item->description = $request->description;
-        $item->price = $request->price;
-        $item->user_id = auth()->id(); // ログインユーザーを出品者として設定
-        // 画像がアップロードされた場合、storageに保存し、パスを img_url フィールドに保存
+        $item->user_id = auth()->id();
+        $item->brand_id = $validated['brand_id'] ?? null;
+        $item->name = $validated['name'];
+        $item->description = $validated['description'];
+        $item->price = $validated['price'];
+        $item->condition = $validated['condition'];
         if ($request->hasFile('image')) {
-            $path = $request->file('image')->store('item_images', 'public'); // storage/app/public/item_imagesに保存
-            $item->img_url = Storage::url($path); // img_url に画像のURLを保存
+            $path = Storage::disk('public')->put('item-images', $request->file('image'));
+            $item->img_url = 'storage/' . $path;
         }
         $item->save();
-        return redirect()->route('profile.sold')->with('success', '商品を出品しました');
+        $item->categories()->sync($validated['category_ids']);
+        return redirect()->route('home')->with('success', '商品を出品しました');
     }
 
     // 商品編集ページ表示

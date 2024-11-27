@@ -35,11 +35,12 @@ class ItemController extends Controller
 
     public function search(Request $request)
     {
+        $page = 'search';
         $query = Item::query();
         if ($request->has('keyword')) {
             $query->where('name', 'LIKE', '%' . $request->input('keyword') . '%');
         }
         $items = $query->paginate(50);
-        return view('index', compact('items'));
+        return view('index', compact('page', 'items'));
     }
 }

@@ -43,7 +43,8 @@ Route::middleware('auth')->prefix('purchase')->group(function () {
     Route::post('/{item_id}', [PurchaseController::class, 'purchase']);
     Route::get('/address/{item_id}', [AddressController::class, 'editAddress'])
     ->name('address.edit');
-    Route::post('/address/{item_id}', [AddressController::class, 'updateAddress']);
+    Route::post('/address/{item_id}', [AddressController::class, 'updateAddress'])
+    ->name('address.update');
 });
 
 // 出品関連のルーティング

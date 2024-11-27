@@ -31,7 +31,7 @@
             <h3>配送先</h3>
             <p>〒 XXX-YYYY</p>
             <p>ここには住所と建物が入ります</p>
-            <a href="#" class="purchase-address__change-link">変更する</a>
+            <a href="{{ route('address.edit', ['item_id' => $item->id]) }}" class="purchase-address__change-link">変更する</a>
         </div>
     </div>
 

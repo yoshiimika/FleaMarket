@@ -2,6 +2,11 @@
 
 @section('content')
 <link rel="stylesheet" href="{{ asset('css/index.css') }}">
+@if (session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+@endif
 <div class="container">
     <div class="pages">
         <a class="pages__page {{ request('page') !== 'mylist' ? 'pages__page--active' : '' }}" href="{{ route('home') }}">

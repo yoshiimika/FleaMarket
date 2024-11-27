@@ -2,7 +2,6 @@
 
 @section('content')
 <link rel="stylesheet" href="{{ asset('css/item.css') }}">
-
 @if (session('success'))
     <div class="alert alert-success">
         {{ session('success') }}
@@ -44,7 +43,7 @@
                 商品説明
             </h2>
             <p class="item-description__content">
-                {{ $item->description }}
+                {!! nl2br(e($item->description)) !!}
             </p>
         </div>
 

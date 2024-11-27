@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 
 class AddressController extends Controller
 {
-    // 住所変更ページ表示
     public function editAddress($item_id)
     {
         $user = auth()->user();
@@ -15,7 +14,6 @@ class AddressController extends Controller
         return view('purchase.address', compact('address', 'item_id'));
     }
 
-    // 住所変更処理
     public function updateAddress(Request $request, $item_id)
     {
         $request->validate([
@@ -28,6 +26,6 @@ class AddressController extends Controller
         $address->fill($request->all());
         $address->user_id = $user->id;
         $address->save();
-        return redirect()->route('purchase.show', ['item_id' => $item_id])->with('success', '住所を更新しました');
+        return redirect()->route('purchase.show', compact('item_id'))->with('success', '住所を更新しました');
     }
 }
