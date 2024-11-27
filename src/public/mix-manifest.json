@@ -1,5 +1,6 @@
 {
     "/js/app.js": "/js/app.js",
+    "/js/image-preview.js": "/js/image-preview.js",
     "/js/category-brand-handler.js": "/js/category-brand-handler.js",
     "/css/app.css": "/css/app.css"
 }

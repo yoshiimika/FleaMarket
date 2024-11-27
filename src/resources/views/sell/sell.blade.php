@@ -13,6 +13,9 @@
             <div class="sell-form__image-upload">
                 <label class="sell-form__image-button" for="image">画像を選択する</label>
                 <input class="sell-form__image-input" id="image" name="image" type="file">
+                <div class="sell-form__image-preview" style="display: none;">
+                    <img alt="プレビュー画像" class="sell-form__image-preview-img" id="image-preview">
+                </div>
             </div>
             @error('image')
                 <span class="error__message">{{ $message }}</span>
@@ -90,5 +93,6 @@
         </div>
     </form>
 </div>
+<script src="{{ asset('js/image-preview.js') }}" defer></script>
 <script src="{{ asset('js/category-brand-handler.js') }}" defer></script>
 @endsection

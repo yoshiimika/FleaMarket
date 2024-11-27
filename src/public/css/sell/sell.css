@@ -51,6 +51,20 @@
     cursor: pointer;
 }
 
+.sell-form__image-preview {
+    margin-top: 10px;
+    text-align: center;
+}
+
+.sell-form__image-preview-img {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    object-fit: cover;
+}
+
 .sell-form__section-title {
     font-size: 1.5em;
     border-bottom: 1px solid #ccc;
