@@ -44,20 +44,4 @@ class UserController extends Controller
         $user->save();
         return redirect()->route('profile')->with('success', 'プロフィールを更新しました。');
     }
-
-    // 購入した商品一覧
-    public function showPurchasedItems()
-    {
-        $user = auth()->user();
-        $purchasedItems = $user->purchases()->with('product')->get();
-        return view('mypage.buy', compact('purchasedItems'));
-    }
-
-    // 出品した商品一覧
-    public function showSoldItems()
-    {
-        $user = auth()->user();
-        $soldItems = $user->products;
-        return view('mypage.sell', compact('soldItems'));
-    }
 }

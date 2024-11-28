@@ -26,7 +26,16 @@
         </p>
         <div class="item-icons">
             <div class="item-icons__icon">
-                <img alt="いいね" class="item-icons__img" src="{{ asset('img/star-icon.svg') }}">
+                <form action="{{ route('item.favorite', $item->id) }}" class="favorite-form" method="POST">
+                @csrf
+                    <button class="favorite-button" type="submit">
+                        @if($item->is_favorite)
+                            <span class="favorite-icon active">★</span>
+                        @else
+                            <span class="favorite-icon">☆</span>
+                        @endif
+                    </button>
+                </form>
                 <span class="item-icons__count">{{ $item->favorites_count }}</span>
             </div>
             <div class="item-icons__icon">

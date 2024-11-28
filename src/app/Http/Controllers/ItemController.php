@@ -15,14 +15,16 @@ class ItemController extends Controller
         if ($page === 'mylist') {
             if (auth()->check()) {
                 $user = auth()->user();
-                $items = \DB::table('favorites')
-                    ->join('items', 'favorites.item_id', '=', 'items.id')
-                    ->where('favorites.user_id', $user->id)
-                    ->select('items.*')
-                    ->get();
+                $items = $user->favoriteItems()->get();
             }
         } else {
-            $items = Item::where('is_sold', false)->latest()->paginate(50);
+            $items = Item::where('is_sold', false)
+                ->when(auth()->check(), function ($query) {
+                    $userId = auth()->id();
+                    return $query->where('user_id', '!=', $userId);
+                })
+                ->latest()
+                ->paginate(50);
         }
         return view('index', compact('page', 'items'));
     }
@@ -39,6 +41,9 @@ class ItemController extends Controller
         $query = Item::query();
         if ($request->has('keyword')) {
             $query->where('name', 'LIKE', '%' . $request->input('keyword') . '%');
+        }
+        if (auth()->check()) {
+            $query->where('user_id', '!=', auth()->id());
         }
         $items = $query->paginate(50);
         return view('index', compact('page', 'items'));
