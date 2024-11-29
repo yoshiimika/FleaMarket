@@ -2,6 +2,11 @@
 
 @section('content')
 <link rel="stylesheet" href="{{ asset('css/mypage/mypage.css') }}">
+@if (session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+@endif
 <div class="mypage-container">
     <div class="mypage-header">
         <div class="mypage-header__profile">

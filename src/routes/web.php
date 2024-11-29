@@ -35,14 +35,13 @@ Route::prefix('item')->group(function () {
     ->name('item.comment.store');
 });
 
-// 購入関連のルーティング
 Route::middleware('auth')->prefix('purchase')->group(function () {
     Route::get('/{item_id}', [PurchaseController::class, 'showPurchaseForm'])
     ->name('purchase.show');
     Route::post('/{item_id}', [PurchaseController::class, 'purchase']);
     Route::get('/address/{item_id}', [AddressController::class, 'editAddress'])
     ->name('address.edit');
-    Route::post('/address/{item_id}', [AddressController::class, 'updateAddress'])
+    Route::put('/address/{item_id}', [AddressController::class, 'updateAddress'])
     ->name('address.update');
 });
 
@@ -58,6 +57,8 @@ Route::middleware('auth')->prefix('mypage')->group(function () {
     ->name('profile');
     Route::get('/profile', [UserController::class, 'editProfile'])
     ->name('profile.edit');
-    Route::post('/profile', [UserController::class, 'updateProfile'])
+    Route::post('/profile', [UserController::class, 'createProfile'])
+    ->name('profile.create');
+    Route::put('/profile', [UserController::class, 'updateProfile'])
     ->name('profile.update');
 });

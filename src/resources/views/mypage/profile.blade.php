@@ -2,42 +2,53 @@
 
 @section('content')
 <link rel="stylesheet" href="{{ asset('css/mypage/profile.css') }}">
-
-@if (session('success'))
-    <div class="alert alert-success">
-        {{ session('success') }}
-    </div>
-@endif
 <div class="profile-container">
     <h1 class="profile-container__title">
         プロフィール設定
     </h1>
-    <form action="{{ route('profile.update') }}" class="profile-form" enctype="multipart/form-data" method="POST">
+    <form action="{{ $isNewProfile ? route('profile.create') : route('profile.update') }}" class="profile-form" enctype="multipart/form-data" method="{{ $isNewProfile ? 'POST' : 'POST' }}">
     @csrf
-    @method('PUT')
+    @if (!$isNewProfile)
+        @method('PUT')
+    @endif
         <div class="profile-form__avatar">
-            <img src="{{ $user->img_url ?? asset('img/default-avatar.png') }}" class="profile-form__avatar-img">
+            <img src="{{ $user->img_url }}" class="profile-form__avatar-img">
             <label class="profile-form__avatar-label" for="avatar">画像を選択する</label>
             <input class="profile-form__avatar-input" id="avatar" name="avatar" type="file">
+            @error('avatar')
+                <span class="error__message">{{ $message }}</span>
+            @enderror
         </div>
         <div class="profile-form__group">
             <label class="profile-form__label" for="name">ユーザー名</label>
-            <input class="profile-form__input" id="name" name="name" type="text" value="{{ $user->name }}">
+            <input class="profile-form__input" id="name" name="name" type="text" value="{{ old('name', $user->name) }}">
+            @error('name')
+                <span class="error__message">{{ $message }}</span>
+            @enderror
         </div>
 
         <div class="profile-form__group">
             <label class="profile-form__label" for="zip">郵便番号</label>
-            <input class="profile-form__input" id="zip" name="zip" type="text" value="{{ $user->zip }}">
+            <input class="profile-form__input" id="zip" name="zip" type="text" value="{{ old('zip', $user->address->zip) }}">
+            @error('zip')
+                <span class="error__message">{{ $message }}</span>
+            @enderror
         </div>
 
         <div class="profile-form__group">
             <label class="profile-form__label" for="address">住所</label>
-            <input class="profile-form__input" id="address" name="address" type="text" value="{{ $user->address }}">
+            <input class="profile-form__input" id="address" name="address" type="text" value="{{ old('address', $user->address->address) }}">
+            @error('address')
+                <span class="error__message">{{ $message }}</span>
+            @enderror
         </div>
 
         <div class="profile-form__group">
             <label class="profile-form__label" for="building">建物名</label>
-            <input class="profile-form__input" id="building" name="building" type="text" value="{{ $user->building }}">
+            <input class="profile-form__input" id="building" name="building" type="text" value="{{ old('building', $user->address->building) }}">
+            @error('building')
+                <span class="error__message">{{ $message }}</span>
+            @enderror
         </div>
 
         <button class="profile-form__button" type="submit">更新する</button>

@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AddressRequest;
 use App\Models\Address;
-use Illuminate\Http\Request;
 
 class AddressController extends Controller
 {
@@ -14,13 +14,8 @@ class AddressController extends Controller
         return view('purchase.address', compact('address', 'item_id'));
     }
 
-    public function updateAddress(Request $request, $item_id)
+    public function updateAddress(AddressRequest $request, $item_id)
     {
-        $request->validate([
-            'street' => 'required|string|max:255',
-            'city' => 'required|string|max:100',
-            'zip' => 'required|string|max:20',
-        ]);
         $user = auth()->user();
         $address = $user->address ?? new Address();
         $address->fill($request->all());

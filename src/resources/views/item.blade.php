@@ -91,7 +91,7 @@
                         <strong class="comment-user">{{ $comment->user->name }}</strong>
                     </div>
                     <div class="comment-content">
-                        <p class="comment-content__text">{{ $comment->content }}</p>
+                        <p class="comment-content__text">{!! nl2br(e($comment->content)) !!}</p>
                     </div>
                 </div>
             @endforeach

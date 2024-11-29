@@ -162,6 +162,10 @@
     white-space: nowrap;
 }
 
+.comment {
+    margin-bottom: 15px;
+}
+
 .comment-header {
     display: flex;
     align-items: center;
