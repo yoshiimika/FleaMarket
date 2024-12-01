@@ -12,9 +12,15 @@
         @method('PUT')
     @endif
         <div class="profile-form__avatar">
-            <img src="{{ $user->img_url }}" class="profile-form__avatar-img">
-            <label class="profile-form__avatar-label" for="avatar">画像を選択する</label>
-            <input class="profile-form__avatar-input" id="avatar" name="avatar" type="file">
+            <div class="profile-form__avatar-preview">
+                @if ($user->img_url)
+                    <img class="profile-form__avatar-img" src="{{ asset('storage/' . $user->img_url) }}">
+                @endif
+            </div>
+            <div class="profile-form__avatar-upload">
+                <label class="profile-form__avatar-label" for="avatar">画像を選択する</label>
+                <input class="profile-form__avatar-input" id="avatar" name="avatar" type="file">
+            </div>
             @error('avatar')
                 <span class="error__message">{{ $message }}</span>
             @enderror

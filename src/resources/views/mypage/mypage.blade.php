@@ -11,7 +11,9 @@
     <div class="mypage-header">
         <div class="mypage-header__profile">
             <div class="mypage-header__avatar">
-                <img class="mypage-header__avatar-img" src="{{ $user->img_url ?? asset('img/default-avatar.png') }}">
+                @if ($user->img_url)
+                    <img class="mypage-header__avatar-img" src="{{ asset('storage/' . $user->img_url) }}">
+                @endif
             </div>
             <div class="mypage-header__info">
                 <h1 class="mypage-header__name">{{ $user->name }}</h1>

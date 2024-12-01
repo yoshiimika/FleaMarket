@@ -25,15 +25,20 @@
 }
 
 .mypage-header__avatar {
-    flex-shrink: 0;
-}
-
-.mypage-header__avatar-img {
     width: 100px;
     height: 100px;
     border-radius: 50%;
-    object-fit: cover;
     background-color: #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.mypage-header__avatar-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .mypage-header__info {

@@ -64,7 +64,7 @@ class FortifyServiceProvider extends ServiceProvider
             $user = \App\Models\User::where('email', $request->email)->first();
             if (!$user || !\Hash::check($request->password, $user->password)) {
                 throw ValidationException::withMessages([
-                    'auth.failed' => 'ログイン情報が正しくありません。',
+                    'auth.failed' => 'ログイン情報が登録されていません',
                 ]);
             }
             return $user;
