@@ -62,6 +62,9 @@
                 商品説明
             </h2>
             <p class="item-description__content">
+                カラー：{{ $item->color ?? '指定なし' }}
+            </p>
+            <p class="item-description__content">
                 {!! nl2br(e($item->description)) !!}
             </p>
         </div>

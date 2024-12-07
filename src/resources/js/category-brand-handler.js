@@ -14,7 +14,7 @@ document.querySelectorAll('.sell-form__category-input').forEach((checkbox) => {
         ).map(input => input.value);
 
         if (selectedCategories.length === 0) {
-            brandSelect.innerHTML = '<option value="" disabled selected>カテゴリを選択してください</option>';
+            brandSelect.innerHTML = '<option value="" disabled selected>カテゴリーを選択してください</option>';
             brandSelect.disabled = true;
             return;
         }

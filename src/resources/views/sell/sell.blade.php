@@ -39,7 +39,7 @@
             @enderror
             <label class="sell-form__label">ブランド</label>
             <select class="sell-form__select" id="brand-select" name="brand_id" {{ old('brand_id') ? '' : 'disabled' }}>
-                <option value="" disabled {{ old('brand_id') ? '' : 'selected' }}>選択してください</option>
+                <option value="" disabled {{ old('brand_id') ? '' : 'selected' }}>カテゴリーを選択してください</option>
                 @if (old('brand_id'))
                     @foreach ($brands as $brand)
                         <option value="{{ $brand->id }}" {{ old('brand_id') == $brand->id ? 'selected' : '' }}>
@@ -49,6 +49,11 @@
                 @endif
             </select>
             @error('brand_id')
+                <span class="error__message">{{ $message }}</span>
+            @enderror
+            <label class="sell-form__label">カラー</label>
+            <input class="sell-form__input" type="text" name="color" value="{{ old('color') }}">
+            @error('color')
                 <span class="error__message">{{ $message }}</span>
             @enderror
             <label class="sell-form__label">商品の状態</label>
