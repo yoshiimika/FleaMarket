@@ -31,6 +31,7 @@ class ListingController extends Controller
         $item->user_id = auth()->id();
         $item->brand_id = $validated['brand_id'] ?? null;
         $item->name = $validated['name'];
+        $item->color = $validated['color'];
         $item->description = $validated['description'];
         $item->price = $validated['price'];
         $item->condition = $validated['condition'];
