@@ -70,9 +70,7 @@
 
 .mypage-header__edit-button:hover {
     background-color: #ff4d4f;
-    /* ホバー時の背景色を赤に */
     color: #fff;
-    /* ホバー時の文字色を白に */
 }
 
 .mypage-pages {
@@ -114,6 +112,7 @@
 
 .mypage-item-card__image {
     width: 100%;
+    position: relative;
 }
 
 .mypage-item-card__image-img {
@@ -121,6 +120,28 @@
     height: auto;
     object-fit: cover;
     display: block;
+}
+
+.mypage-item-card__label {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 75px 75px 0;
+    border-color: transparent red transparent transparent;
+}
+
+.mypage-item-card__label::before {
+    content: "SOLD";
+    position: absolute;
+    top: 10px;
+    right: -70px;
+    transform: rotate(45deg);
+    font-size: 15px;
+    color: white;
+    font-weight: bold;
 }
 
 .mypage-item-card__name {

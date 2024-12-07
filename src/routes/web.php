@@ -38,10 +38,15 @@ Route::prefix('item')->group(function () {
 Route::middleware('auth')->prefix('purchase')->group(function () {
     Route::get('/{item_id}', [PurchaseController::class, 'showPurchaseForm'])
     ->name('purchase.show');
-    Route::post('/{item_id}', [PurchaseController::class, 'purchase']);
-    Route::get('/address/{item_id}', [AddressController::class, 'editAddress'])
+    Route::post('/{item_id}', [PurchaseController::class, 'purchase'])
+    ->name('purchase');
+    Route::get('/purchase/success/{item_id}', [PurchaseController::class, 'success'])
+    ->name('purchase.success');
+    Route::get('/purchase/cancel/{item_id}', [PurchaseController::class, 'cancel'])
+    ->name('purchase.cancel');
+    Route::get('/address/{item_id}', [AddressController::class, 'editShoppingAddress'])
     ->name('address.edit');
-    Route::put('/address/{item_id}', [AddressController::class, 'updateAddress'])
+    Route::put('/address/{item_id}', [AddressController::class, 'updateShoppingAddress'])
     ->name('address.update');
 });
 

@@ -11,6 +11,12 @@
     border: 1px solid #c3e6cb;
 }
 
+.alert-danger {
+    background-color: #edd4d4;
+    color: #571515;
+    border: 1px solid #e6c3c3;
+}
+
 .pages{
     border-bottom: 2px solid black;
     padding-top: 25px;
@@ -50,6 +56,7 @@
 
 .item-card__image {
     width: 100%;
+    position: relative;
 }
 
 .item-card__image-img {
@@ -57,6 +64,28 @@
     height: auto;
     object-fit: cover;
     display: block;
+}
+
+.item-card__label {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 75px 75px 0;
+    border-color: transparent red transparent transparent;
+}
+
+.item-card__label::before {
+    content: "SOLD";
+    position: absolute;
+    top: 10px;
+    right: -70px;
+    transform: rotate(45deg);
+    font-size: 15px;
+    color: white;
+    font-weight: bold;
 }
 
 .item-card__name {

@@ -7,20 +7,24 @@ use App\Models\Address;
 
 class AddressController extends Controller
 {
-    public function editAddress($item_id)
+    public function editShoppingAddress($item_id)
     {
         $user = auth()->user();
-        $address = $user->address ?? new Address();
+        $address = (object) [
+            'zip' => session('shopping_zip', $user->address->zip),
+            'address' => session('shopping_address', $user->address->address),
+            'building' => session('shopping_building', $user->address->building),
+        ];
         return view('purchase.address', compact('address', 'item_id'));
     }
 
-    public function updateAddress(AddressRequest $request, $item_id)
+    public function updateShoppingAddress(AddressRequest $request, $item_id)
     {
-        $user = auth()->user();
-        $address = $user->address ?? new Address();
-        $address->fill($request->all());
-        $address->user_id = $user->id;
-        $address->save();
-        return redirect()->route('purchase.show', compact('item_id'))->with('success', '住所を更新しました');
+        session([
+            'shopping_zip' => $request->input('zip'),
+            'shopping_address' => $request->input('address'),
+            'shopping_building' => $request->input('building'),
+        ]);
+        return redirect()->route('purchase.show', ['item_id' => $item_id])->with('success', '送付先住所が更新されました');
     }
 }

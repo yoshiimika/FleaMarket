@@ -14,6 +14,8 @@ const mix = require('laravel-mix');
 mix.js('resources/js/app.js', 'public/js')
     .js('resources/js/image-preview.js', 'public/js')
     .js('resources/js/category-brand-handler.js', 'public/js')
+    .js('resources/js/purchase.js', 'public/js')
+    .js('resources/js/avatar-preview.js', 'public/js')
     .postCss('resources/css/app.css', 'public/css', [
         //
     ]);

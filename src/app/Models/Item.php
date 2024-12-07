@@ -18,6 +18,7 @@ class Item extends Model
         'price',
         'img_url',
         'condition',
+        'is_sold'
     ];
 
     public function user()
@@ -66,5 +67,10 @@ class Item extends Model
     public function getCommentsCountAttribute()
     {
         return $this->comments()->count();
+    }
+
+    public function getIsPurchasedAttribute()
+    {
+        return $this->purchases()->exists();
     }
 }

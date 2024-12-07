@@ -17,7 +17,9 @@ class UserController extends Controller
         if ($page === 'sell') {
             $items = Item::where('user_id', $user->id)->get();
         } elseif ($page === 'buy') {
-            $items = $user->purchasedItems ?? collect();
+        $items = Item::whereHas('purchases', function ($query) use ($user) {
+            $query->where('user_id', $user->id);
+        })->get();
         } else {
             $items = collect();
         }

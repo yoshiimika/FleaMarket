@@ -7,6 +7,11 @@
         {{ session('success') }}
     </div>
 @endif
+@if (session('error'))
+    <div class="alert alert-danger">
+        {{ session('error') }}
+    </div>
+@endif
 <div class="container">
     <div class="pages">
         <a class="pages__page {{ request('page') !== 'mylist' ? 'pages__page--active' : '' }}" href="{{ route('home') }}">
@@ -28,6 +33,9 @@
                                 <a href="{{ route('item.show', ['item_id' => $item->id]) }}">
                                     <img alt="商品画像" class="item-card__image-img" src="{{ asset($item->img_url) }}">
                                 </a>
+                                @if ($item->is_sold)
+                                    <div class="item-card__label"></div>
+                                @endif
                             </div>
                             <div class="item-card__name">
                                 {{ $item->name }}
@@ -45,6 +53,9 @@
                         <a href="{{ route('item.show', ['item_id' => $item->id]) }}">
                             <img alt="商品画像" class="item-card__image-img" src="{{ asset($item->img_url) }}">
                         </a>
+                        @if ($item->is_sold)
+                            <div class="item-card__label"></div>
+                        @endif
                     </div>
                     <div class="item-card__name">
                         {{ $item->name }}

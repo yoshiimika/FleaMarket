@@ -18,8 +18,7 @@ class ItemController extends Controller
                 $items = $user->favoriteItems()->get();
             }
         } else {
-            $items = Item::where('is_sold', false)
-                ->when(auth()->check(), function ($query) {
+            $items = Item::when(auth()->check(), function ($query) {
                     $userId = auth()->id();
                     return $query->where('user_id', '!=', $userId);
                 })

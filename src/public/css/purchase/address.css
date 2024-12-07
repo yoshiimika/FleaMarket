@@ -37,6 +37,10 @@
     box-sizing: border-box;
 }
 
+.error__message {
+    color: red;
+}
+
 .address-form__submit-button {
     width: 100%;
     padding: 15px;

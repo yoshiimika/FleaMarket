@@ -33,12 +33,36 @@
     align-items: center;
     justify-content: center;
     border-radius: 5px;
+    position: relative;
 }
 
 .item-image__img {
     width: 100%;
     height: auto;
     object-fit: cover;
+    position: relative;
+}
+
+.item-label {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 75px 75px 0;
+    border-color: transparent red transparent transparent;
+}
+
+.item-label::before {
+    content: "SOLD";
+    position: absolute;
+    top: 10px;
+    right: -70px;
+    transform: rotate(45deg);
+    font-size: 15px;
+    color: white;
+    font-weight: bold;
 }
 
 .item-details {
@@ -102,7 +126,7 @@
     color: #333;
 }
 
-.item-button--purchase {
+.item-button__purchase {
     display: inline-block;
     width: 100%;
     padding: 12px 20px;
@@ -119,14 +143,22 @@
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.item-button--purchase:hover {
+.item-button__purchase:hover {
     background-color: #e63946;
     transform: scale(1.05);
 }
 
-.item-button--purchase:active {
+.item-button__purchase:active {
     background-color: #d62828;
     transform: scale(0.95);
+}
+
+.item-button__purchase--disabled {
+    background-color: #d6d6d6;
+    color: #7a7a7a;
+    cursor: not-allowed;
+    pointer-events: none;
+    transition: none;
 }
 
 .item-description,
@@ -254,4 +286,12 @@
 .comment-form__button:active {
     background-color: #d62828;
     transform: scale(0.95);
+}
+
+.comment-form__button--disabled {
+    background-color: #d6d6d6;
+    color: #7a7a7a;
+    cursor: not-allowed;
+    pointer-events: none;
+    transition: none;
 }

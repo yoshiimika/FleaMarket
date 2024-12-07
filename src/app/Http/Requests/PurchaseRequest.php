@@ -13,7 +13,7 @@ class PurchaseRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,16 @@ class PurchaseRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'payment_method' => ['required', 'string', 'max:50'],
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'payment_method.required' => '支払い方法を選択してください',
+            'payment_method.string' => '支払い方法が不正です',
+            'payment_method.max' => '支払い方法は50文字以内で指定してください',
         ];
     }
 }

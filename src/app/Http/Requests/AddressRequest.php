@@ -26,7 +26,7 @@ class AddressRequest extends FormRequest
         return [
             'zip' => ['required', 'regex:/^\d{3}-\d{4}$/'],
             'address' => ['required', 'string', 'max:255'],
-            'building' => ['required', 'string', 'max:255'],
+            'building' => ['nullable', 'string', 'max:255'],
         ];
     }
 
@@ -36,7 +36,6 @@ class AddressRequest extends FormRequest
             'zip.required' => '郵便番号を入力してください',
             'zip.regex' => '郵便番号はハイフンを含む8文字で入力してください（例: 123-4567）',
             'address.required' => '住所を入力してください',
-            'building.required' => '建物名を入力してください',
         ];
     }
 }

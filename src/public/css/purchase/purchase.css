@@ -1,7 +1,20 @@
+.alert {
+    padding: 10px 20px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
 .purchase-container {
     display: flex;
     justify-content: space-between;
-    padding: 20px;
+    padding: 40px;
 }
 
 .purchase-details {
@@ -10,7 +23,6 @@
 
 .purchase-item {
     display: flex;
-    align-items: center;
 }
 
 .purchase-item__image {
@@ -24,33 +36,53 @@
     flex-grow: 1;
 }
 
-.purchase-item__name {
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 10px;
-}
-
 .purchase-item__price {
-    font-size: 16px;
+    font-size: 25px;
     color: #333;
 }
 
 .purchase-method,
 .purchase-address {
-    margin: 20px 0;
+    margin: 20px;
 }
 
 .purchase-method__select {
-    width: 100%;
+    width: 30%;
+    margin-left: 30px;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
 }
 
+.purchase-address {
+    margin: 20px;
+}
+
+.purchase-address__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.purchase-address__title {
+    font-size: 16px;
+    font-weight: bold;
+}
+
 .purchase-address__change-link {
     color: blue;
-    text-decoration: underline;
+    text-decoration: none;
     font-size: 14px;
+    margin-left: auto;
+}
+
+.error__message {
+    color: red;
+    margin-left: 30px;
+}
+
+.address-text {
+    margin-left: 30px;
 }
 
 .purchase-summary {

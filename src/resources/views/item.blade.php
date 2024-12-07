@@ -11,6 +11,9 @@
     <div class="item-image">
         <div class="item-image__placeholder">
             <img alt="商品画像" class="item-image__img" src="{{ asset($item->img_url) }}">
+            @if ($item->is_sold)
+                <div class="item-label"></div>
+            @endif
         </div>
     </div>
     <div class="item-details">
@@ -43,8 +46,15 @@
                 <span class="item-icons__count">{{ $item->comments_count }}</span>
             </div>
         </div>
-        <a class="item-button--purchase" href="{{ route('purchase.show', $item->id) }}">
-            購入手続きへ
+        <a class="item-button__purchase {{ $item->is_sold ? 'item-button__purchase--disabled' : '' }}{{ auth()->id() === $item->user_id ? 'item-button__purchase--disabled' : '' }}"
+            href="{{ !$item->is_sold && auth()->id() !== $item->user_id ? route('purchase.show', $item->id) : '#' }}">
+            @if (auth()->id() === $item->user_id)
+                出品者は購入できません
+            @elseif ($item->is_sold)
+                この商品は売り切れです
+            @else
+                購入手続きへ
+            @endif
         </a>
 
         <div class="item-description">
@@ -106,9 +116,15 @@
                 @error('content')
                     <span class="error__message">{{ $message }}</span>
                 @enderror
-                <button class="comment-form__button" type="submit">
-                    コメントを送信する
-                </button>
+                @if (!$item->is_sold)
+                    <button class="comment-form__button" type="submit">
+                        コメントを送信する
+                    </button>
+                @else
+                    <button class="comment-form__button comment-form__button--disabled" type="button" disabled>
+                        この商品は売り切れのためコメントできません
+                    </button>
+                @endif
             </form>
         </div>
     </div>

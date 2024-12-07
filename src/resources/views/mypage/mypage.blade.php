@@ -46,6 +46,9 @@
                             <a href="{{ route('item.show', ['item_id' => $item->id]) }}">
                                 <img alt="商品画像" class="mypage-item-card__image-img" src="{{ asset($item->img_url) }}">
                             </a>
+                            @if ($item->is_sold)
+                                <div class="mypage-item-card__label"></div>
+                            @endif
                         </div>
                         <div class="mypage-item-card__name">
                             {{ $item->name }}
@@ -65,6 +68,9 @@
                             <a href="{{ route('item.show', ['item_id' => $item->id]) }}">
                                 <img alt="商品画像" class="mypage-item-card__image-img" src="{{ asset($item->img_url) }}">
                             </a>
+                            @if ($item->is_sold)
+                                <div class="mypage-item-card__label"></div>
+                            @endif
                         </div>
                         <div class="mypage-item-card__name">
                             {{ $item->name }}

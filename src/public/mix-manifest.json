@@ -2,5 +2,7 @@
     "/js/app.js": "/js/app.js",
     "/js/image-preview.js": "/js/image-preview.js",
     "/js/category-brand-handler.js": "/js/category-brand-handler.js",
+    "/js/purchase.js": "/js/purchase.js",
+    "/js/avatar-preview.js": "/js/avatar-preview.js",
     "/css/app.css": "/css/app.css"
 }
