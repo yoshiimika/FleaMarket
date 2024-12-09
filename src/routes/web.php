@@ -29,13 +29,13 @@ Route::get('/search', [ItemController::class, 'search'])
 Route::prefix('item')->group(function () {
     Route::get('/{item_id}', [ItemController::class, 'show'])
     ->name('item.show');
-    Route::middleware('auth')->post('/{item_id}/favorite', [FavoriteController::class, 'toggle'])
+    Route::middleware(['auth', 'verified'])->post('/{item_id}/favorite', [FavoriteController::class, 'toggle'])
     ->name('item.favorite');
-    Route::middleware('auth')->post('/{item_id}/comment', [CommentController::class, 'store'])
+    Route::middleware(['auth', 'verified'])->post('/{item_id}/comment', [CommentController::class, 'store'])
     ->name('item.comment.store');
 });
 
-Route::middleware('auth')->prefix('purchase')->group(function () {
+Route::middleware(['auth', 'verified'])->prefix('purchase')->group(function () {
     Route::get('/{item_id}', [PurchaseController::class, 'showPurchaseForm'])
     ->name('purchase.show');
     Route::post('/{item_id}', [PurchaseController::class, 'purchase'])
@@ -50,14 +50,14 @@ Route::middleware('auth')->prefix('purchase')->group(function () {
     ->name('address.update');
 });
 
-Route::middleware('auth')->prefix('sell')->group(function () {
+Route::middleware(['auth', 'verified'])->prefix('sell')->group(function () {
     Route::get('/', [ListingController::class, 'create'])
     ->name('sell');
     Route::post('/', [ListingController::class, 'store'])
     ->name('sell.store');
 });
 
-Route::middleware('auth')->prefix('mypage')->group(function () {
+Route::middleware(['auth', 'verified'])->prefix('mypage')->group(function () {
     Route::get('/', [UserController::class, 'showProfile'])
     ->name('profile');
     Route::get('/profile', [UserController::class, 'editProfile'])

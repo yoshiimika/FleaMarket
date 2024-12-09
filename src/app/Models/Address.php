@@ -16,6 +16,18 @@ class Address extends Model
         'zip',
     ];
 
+    protected static function boot()
+    {
+        parent::boot();
+        static::creating(function ($address) {
+            $user = $address->user;
+            if ($user && !$user->profile_created) {
+                $user->profile_created = true;
+                $user->save();
+            }
+        });
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);

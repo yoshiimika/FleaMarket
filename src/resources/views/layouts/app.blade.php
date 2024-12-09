@@ -12,7 +12,7 @@
             <div class="header__logo">
                 <img alt="COACHTECH" class="header__logo-img" src="/img/logo.svg">
             </div>
-        @unless (Request::is('login') || Request::is('register'))
+        @unless (Request::is('login') || Request::is('register') || Request::is('email/verify'))
             <div class="header__search-bar">
                 <form action="{{ route('item.search') }}" method="GET">
                 @csrf

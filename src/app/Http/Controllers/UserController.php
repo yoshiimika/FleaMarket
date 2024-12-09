@@ -30,7 +30,7 @@ class UserController extends Controller
     {
         $user = auth()->user();
         $address = $user->address;
-        $isNewProfile = !$user->name && (!$address || (!$address->zip && !$address->address && !$address->building));
+        $isNewProfile = !$user->profile_created;
         return view('mypage.profile', compact('user', 'isNewProfile'));
     }
 
