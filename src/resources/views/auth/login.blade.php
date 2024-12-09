@@ -1,8 +1,10 @@
 @extends('layouts.app')
 
-@section('content')
+@section('css')
 <link rel="stylesheet" href="{{ asset('css/auth/login.css') }}">
+@endsection
 
+@section('content')
 <div class="login-container">
     <h1 class="login-container__title">ログイン</h1>
 

@@ -1,7 +1,10 @@
 @extends('layouts.app')
 
-@section('content')
+@section('css')
 <link rel="stylesheet" href="{{ asset('css/sell/sell.css') }}">
+@endsection
+
+@section('content')
 <div class="sell-container">
     <h1 class="sell-title">
         商品の出品
@@ -98,6 +101,9 @@
         </div>
     </form>
 </div>
+@endsection
+
+@section('scripts')
 <script src="{{ asset('js/image-preview.js') }}" defer></script>
 <script src="{{ asset('js/category-brand-handler.js') }}" defer></script>
 @endsection

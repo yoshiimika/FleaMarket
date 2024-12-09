@@ -1,7 +1,10 @@
 @extends('layouts.app')
 
-@section('content')
+@section('css')
 <link rel="stylesheet" href="{{ asset('css/mypage/mypage.css') }}">
+@endsection
+
+@section('content')
 @if (session('success'))
     <div class="alert alert-success">
         {{ session('success') }}

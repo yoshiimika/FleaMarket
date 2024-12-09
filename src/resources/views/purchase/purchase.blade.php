@@ -1,7 +1,10 @@
 @extends('layouts.app')
 
-@section('content')
+@section('css')
 <link rel="stylesheet" href="{{ asset('css/purchase/purchase.css') }}">
+@endsection
+
+@section('content')
 @if (session('success'))
     <div class="alert alert-success">
         {{ session('success') }}
@@ -58,5 +61,8 @@
             </form>
     </div>
 </div>
+@endsection
+
+@section('scripts')
 <script src="{{ asset('js/purchase.js') }}"></script>
 @endsection

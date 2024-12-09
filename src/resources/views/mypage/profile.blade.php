@@ -1,7 +1,10 @@
 @extends('layouts.app')
 
-@section('content')
+@section('css')
 <link rel="stylesheet" href="{{ asset('css/mypage/profile.css') }}">
+@endsection
+
+@section('content')
 <div class="profile-container">
     <h1 class="profile-container__title">
         プロフィール設定
@@ -58,5 +61,8 @@
         <button class="profile-form__button" type="submit">更新する</button>
     </form>
 </div>
+@endsection
+
+@section('scripts')
 <script src="{{ asset('js/avatar-preview.js') }}"></script>
 @endsection

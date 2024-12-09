@@ -6,6 +6,7 @@
         <title>coachtechフリマ</title>
         <link rel="stylesheet" href="{{ asset('css/sanitize.css') }}">
         <link rel="stylesheet" href="{{ asset('css/layouts/app.css') }}">
+        @yield('css')
     </head>
     <body>
         <header class="header">
@@ -35,6 +36,7 @@
         </header>
         <main>
             @yield('content')
+            @yield('scripts')
         </main>
     </body>
 </html>
