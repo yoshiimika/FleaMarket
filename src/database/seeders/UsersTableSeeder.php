@@ -20,6 +20,7 @@ class UsersTableSeeder extends Seeder
             'email' => 'test@test.com',
             'password' => Hash::make('password'),
             'email_verified_at' => now(),
+            'profile_created' => true,
         ]);
     }
 }

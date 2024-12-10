@@ -11,22 +11,10 @@ class Address extends Model
 
     protected $fillable = [
         'user_id',
-        'street',
-        'city',
         'zip',
+        'address',
+        'building',
     ];
-
-    protected static function boot()
-    {
-        parent::boot();
-        static::creating(function ($address) {
-            $user = $address->user;
-            if ($user && !$user->profile_created) {
-                $user->profile_created = true;
-                $user->save();
-            }
-        });
-    }
 
     public function user()
     {

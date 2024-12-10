@@ -15,7 +15,7 @@ class Category extends Model
 
     public function items()
     {
-        return $this->belongsToMany(Item::class, 'category_items');
+        return $this->belongsToMany(Item::class, 'category_item');
     }
 
     public function brands()
