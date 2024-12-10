@@ -34,7 +34,7 @@ class Item extends Model
 
     public function purchases()
     {
-        return $this->hasMany(Purchase::class);
+        return $this->hasOne(Purchase::class);
     }
 
     public function comments()
