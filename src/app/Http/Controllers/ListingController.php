@@ -19,28 +19,34 @@ class ListingController extends Controller
 
     public function getBrands($categoryIds)
     {
-        $ids = explode(',', $categoryIds);
-        $brands = Brand::whereIn('category_id', $ids)->get(['id', 'name']);
+        $brands = Brand::whereIn('category_id', explode(',', $categoryIds))
+            ->get(['id', 'name']);
         return response()->json($brands);
     }
 
     public function store(ExhibitionRequest $request)
     {
         $validated = $request->validated();
-        $item = new Item();
-        $item->user_id = auth()->id();
-        $item->brand_id = $validated['brand_id'] ?? null;
-        $item->name = $validated['name'];
-        $item->color = $validated['color'];
-        $item->description = $validated['description'];
-        $item->price = $validated['price'];
-        $item->condition = $validated['condition'];
+        $item = auth()->user()->items()->create([
+            'brand_id' => $validated['brand_id'] ?? null,
+            'name' => $validated['name'],
+            'color' => $validated['color'],
+            'description' => $validated['description'],
+            'price' => $validated['price'],
+            'condition' => $validated['condition'],
+            'img_url' => $this->storeImage($request),
+        ]);
+        $item->categories()->sync($validated['category_ids']);
+        return redirect()->route('home')
+            ->with('success', '商品を出品しました');
+    }
+
+    private function storeImage($request)
+    {
         if ($request->hasFile('image')) {
             $path = Storage::disk('public')->put('item-images', $request->file('image'));
-            $item->img_url = 'storage/' . $path;
+            return 'storage/' . $path;
         }
-        $item->save();
-        $item->categories()->sync($validated['category_ids']);
-        return redirect()->route('home')->with('success', '商品を出品しました');
+        return null;
     }
 }

@@ -24,6 +24,7 @@ class AddressController extends Controller
             'shopping_address' => $request->input('address'),
             'shopping_building' => $request->input('building'),
         ]);
-        return redirect()->route('purchase.show', ['item_id' => $item_id])->with('success', '送付先住所が更新されました');
+        return redirect()->route('purchase.show', ['item_id' => $item_id])
+            ->with('success', '送付先住所が更新されました');
     }
 }

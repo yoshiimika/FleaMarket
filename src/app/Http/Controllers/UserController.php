@@ -17,7 +17,7 @@ class UserController extends Controller
         if ($page === 'sell') {
             $items = Item::where('user_id', $user->id)->get();
         } elseif ($page === 'buy') {
-        $items = Item::whereHas('purchases', function ($query) use ($user) {
+            $items = Item::whereHas('purchases', function ($query) use ($user) {
             $query->where('user_id', $user->id);
         })->get();
         } else {
@@ -40,45 +40,44 @@ class UserController extends Controller
         if ($user->profile_created) {
             return redirect()->route('profile.edit');
         }
-        $validated = $request->validated();
-        if ($request->hasFile('avatar')) {
-            $file = $request->file('avatar');
-            $avatarPath = $file->store('avatars', 'public');
-            $user->img_url = $avatarPath;
-        }
-        $user->name = $validated['name'];
-        $user->profile_created = true;
-        $user->save();
-        $address = new Address();
-        $address->user_id = $user->id;
-        $address->zip = $validated['zip'];
-        $address->address = $validated['address'];
-        $address->building = $validated['building'];
-        $address->save();
-        return redirect()->route('home')->with('success', 'プロフィールが作成されました');
+        $this->saveUserProfile($user, $request);
+        $this->saveUserAddress($user, $request);
+        return redirect()->route('home')
+            ->with('success', 'プロフィールが作成されました');
     }
-
 
     public function updateProfile(ProfileRequest $request)
     {
         $user = auth()->user();
+        $this->saveUserProfile($user, $request);
+        $this->saveUserAddress($user, $request);
+        return redirect()->route('profile')
+            ->with('success', 'プロフィールが更新されました');
+    }
+
+    private function saveUserProfile($user, $request)
+    {
         $validated = $request->validated();
         if ($request->hasFile('avatar')) {
-            $file = $request->file('avatar');
             if ($user->img_url) {
                 Storage::disk('public')->delete($user->img_url);
             }
-            $avatarPath = $file->store('avatars', 'public');
-            $user->img_url = $avatarPath;
+            $user->img_url = $request->file('avatar')->store('avatars', 'public');
         }
-        $user->name = $validated['name'];
-        $user->save();
-        $address = $user->address ?? new Address();
-        $address->user_id = $user->id;
-        $address->zip = $validated['zip'];
-        $address->address = $validated['address'];
-        $address->building = $validated['building'];
-        $address->save();
-        return redirect()->route('profile')->with('success', 'プロフィールが更新されました');
+        $user->fill([
+            'name' => $validated['name'],
+            'profile_created' => true,
+        ])->save();
+    }
+
+    private function saveUserAddress($user, $request)
+    {
+        $validated = $request->validated();
+        $address = $user->address ?? new Address(['user_id' => $user->id]);
+        $address->fill([
+            'zip' => $validated['zip'],
+            'address' => $validated['address'],
+            'building' => $validated['building'],
+        ])->save();
     }
 }
