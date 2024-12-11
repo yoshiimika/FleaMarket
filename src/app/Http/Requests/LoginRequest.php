@@ -31,7 +31,7 @@ class LoginRequest extends FortifyLoginRequest
 
     public function messages(): array
     {
-        return [　
+        return [
             'email.required' => 'メールアドレスを入力してください',
             'password.required' => 'パスワードを入力してください',
             'password.min' => 'パスワードは8文字以上で入力してください',

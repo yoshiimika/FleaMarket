@@ -4,9 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\PurchaseRequest;
 use App\Models\Item;
-use App\Models\Purchase;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Session;
 use Stripe\StripeClient;
 
 class PurchaseController extends Controller
