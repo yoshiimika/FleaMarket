@@ -29,7 +29,7 @@ class ExhibitionRequest extends FormRequest
             'image' => ['required', 'image', 'mimes:jpeg,png', 'max:2048'],
             'category_ids' => ['required', 'exists:categories,id'],
             'brand_id' => ['nullable', 'integer', 'exists:brands,id'],
-            'condition' => ['required', 'string'],
+            'condition' => ['required', 'string', 'max:255'],
             'price' => ['required', 'numeric', 'min:0'],
             'color' => ['nullable','string','max:255']
         ];

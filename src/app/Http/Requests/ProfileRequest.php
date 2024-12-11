@@ -42,7 +42,6 @@ class ProfileRequest extends FormRequest
             'zip.required' => '郵便番号を入力してください',
             'zip.regex' => '郵便番号はハイフンを含む形式で入力してください（例: 123-4567）',
             'address.required' => '住所を入力してください',
-            'building.max' => '建物名は255文字以内で入力してください',
         ];
     }
 }

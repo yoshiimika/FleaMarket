@@ -40,9 +40,9 @@ Route::middleware(['auth', 'verified'])->prefix('purchase')->group(function () {
     ->name('purchase.show');
     Route::post('/{item_id}', [PurchaseController::class, 'purchase'])
     ->name('purchase');
-    Route::get('/purchase/success/{item_id}', [PurchaseController::class, 'success'])
+    Route::get('/success/{item_id}', [PurchaseController::class, 'success'])
     ->name('purchase.success');
-    Route::get('/purchase/cancel/{item_id}', [PurchaseController::class, 'cancel'])
+    Route::get('/cancel/{item_id}', [PurchaseController::class, 'cancel'])
     ->name('purchase.cancel');
     Route::get('/address/{item_id}', [AddressController::class, 'editShoppingAddress'])
     ->name('address.edit');
