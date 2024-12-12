@@ -10,30 +10,12 @@ class ItemController extends Controller
     public function index(Request $request)
     {
         $page = $request->query('page', 'recommend');
-        $keyword = $request->query('keyword', session('keyword', ''));
-        if ($request->has('keyword')) {
-            session(['keyword' => $request->input('keyword')]);
-        }
+        $keyword = $this->getKeyword($request);
         $items = collect();
         if ($page === 'mylist') {
-            if (auth()->check()) {
-                $user = auth()->user();
-                $items = $user->favoriteItems()
-                    ->when($keyword, function ($query) use ($keyword) {
-                        return $query->where('name', 'LIKE', '%' . $keyword . '%');
-                    })
-                    ->get();
-            }
+            $items = $this->getFavoriteItems($keyword);
         } else {
-            $items = Item::when(auth()->check(), function ($query) {
-                    $userId = auth()->id();
-                    return $query->where('user_id', '!=', $userId);
-                })
-                ->when($keyword, function ($query) use ($keyword) {
-                    return $query->where('name', 'LIKE', '%' . $keyword . '%');
-                })
-                ->latest()
-                ->paginate(50);
+            $items = $this->getRecommendedItems($keyword);
         }
         return view('index', compact('page', 'items', 'keyword'));
     }
@@ -46,16 +28,41 @@ class ItemController extends Controller
 
     public function search(Request $request)
     {
-        $keyword = $request->input('keyword', session('keyword', ''));
-        session(['keyword' => $keyword]);
-        $query = Item::query();
-        if ($keyword) {
-            $query->where('name', 'LIKE', '%' . $keyword . '%');
-        }
-        if (auth()->check()) {
-            $query->where('user_id', '!=', auth()->id());
-        }
-        $items = $query->paginate(50);
+        $keyword = $this->getKeyword($request);
         return redirect()->route('home', ['keyword' => $keyword]);
+    }
+
+    private function getKeyword(Request $request)
+    {
+        $keyword = $request->query('keyword', session('keyword', ''));
+        if ($request->has('keyword')) {
+            session(['keyword' => $keyword]);
+        }
+        return $keyword;
+    }
+
+    private function getFavoriteItems($keyword)
+    {
+        if (!auth()->check()) {
+            return collect();
+        }
+
+        return auth()->user()->favoriteItems()
+            ->when($keyword, function ($query) use ($keyword) {
+                return $query->where('name', 'LIKE', '%' . $keyword . '%');
+            })
+            ->get();
+    }
+
+    private function getRecommendedItems($keyword)
+    {
+        return Item::when(auth()->check(), function ($query) {
+                return $query->where('user_id', '!=', auth()->id());
+            })
+            ->when($keyword, function ($query) use ($keyword) {
+                return $query->where('name', 'LIKE', '%' . $keyword . '%');
+            })
+            ->latest()
+            ->get();
     }
 }
