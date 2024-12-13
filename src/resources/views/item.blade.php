@@ -5,15 +5,10 @@
 @endsection
 
 @section('content')
-@if (session('success'))
-    <div class="alert alert-success">
-        {{ session('success') }}
-    </div>
-@endif
 <div class="item-container">
     <div class="item-image">
         <div class="item-image__placeholder">
-            <img alt="商品画像" class="item-image__img" src="{{ asset($item->img_url) }}">
+            <img alt="{{ $item->name }}の画像" class="item-image__img" src="{{ asset($item->img_url) }}">
             @if ($item->is_sold)
                 <div class="item-label"></div>
             @endif
@@ -49,7 +44,7 @@
                 <span class="item-icons__count">{{ $item->comments_count }}</span>
             </div>
         </div>
-        <a class="item-button__purchase {{ $item->is_sold ? 'item-button__purchase--disabled' : '' }}{{ auth()->id() === $item->user_id ? 'item-button__purchase--disabled' : '' }}"
+        <a class="item-button__purchase {{ $item->is_sold || auth()->id() === $item->user_id ? 'item-button__purchase--disabled' : '' }}"
             href="{{ !$item->is_sold && auth()->id() !== $item->user_id ? route('purchase.show', $item->id) : '#' }}">
             @if (auth()->id() === $item->user_id)
                 出品者は購入できません

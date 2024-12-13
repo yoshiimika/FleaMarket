@@ -6,13 +6,14 @@
 
 @section('content')
 <div class="login-container">
-    <h1 class="login-container__title">ログイン</h1>
-
-    <form method="POST" action="{{ route('login') }}" class="login-form">
-        @csrf
+    <h1 class="login-container__title">
+        ログイン
+    </h1>
+    <form action="{{ route('login') }}" class="login-form" method="POST">
+    @csrf
         <div class="login-form__group">
-            <label for="email" class="login-form__label">ユーザー名 / メールアドレス</label>
-            <input type="text" id="email" name="email" class="login-form__input" value="{{old('email')}}">
+            <label class="login-form__label" for="email">ユーザー名 / メールアドレス</label>
+            <input class="login-form__input" id="email" name="email" type="text" value="{{old('email')}}">
         </div>
         <div class="error__group">
             @error('email')
@@ -23,18 +24,21 @@
             @enderror
         </div>
         <div class="login-form__group">
-            <label for="password" class="login-form__label">パスワード</label>
-            <input type="password" id="password" name="password" class="login-form__input">
+            <label class="login-form__label" for="password">パスワード</label>
+            <input class="login-form__input" id="password" name="password" type="password">
         </div>
         <div class="error__group">
             @error('password')
                 <span class="error__message">{{ $message }}</span>
             @enderror
         </div>
-        <button type="submit" class="login-form__button">ログインする</button>
-
+        <button type="submit" class="login-form__button">
+            ログインする
+        </button>
         <div class="login-form__register-link">
-            <a href="{{ route('register') }}" class="login-form__register-link-text">会員登録はこちら</a>
+            <a class="login-form__register-link-text" href="{{ route('register') }}">
+                会員登録はこちら
+            </a>
         </div>
     </form>
 </div>

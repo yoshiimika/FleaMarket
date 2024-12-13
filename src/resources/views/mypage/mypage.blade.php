@@ -5,11 +5,6 @@
 @endsection
 
 @section('content')
-@if (session('success'))
-    <div class="alert alert-success">
-        {{ session('success') }}
-    </div>
-@endif
 <div class="mypage-container">
     <div class="mypage-header">
         <div class="mypage-header__profile">
@@ -19,7 +14,9 @@
                 @endif
             </div>
             <div class="mypage-header__info">
-                <h1 class="mypage-header__name">{{ $user->name }}</h1>
+                <h1 class="mypage-header__name">
+                    {{ $user->name }}
+                </h1>
             </div>
         </div>
         <div class="mypage-header__button">
@@ -37,50 +34,28 @@
         </a>
     </div>
     <div class="mypage-items">
-        @if($page === 'buy')
-            @if($items->isEmpty())
-                <p class="no-mypage-items">
-                    購入した商品はありません
-                </p>
-            @else
-                @foreach($items as $item)
-                    <div class="mypage-item-card">
-                        <div class="mypage-item-card__image">
-                            <a href="{{ route('item.show', ['item_id' => $item->id]) }}">
-                                <img alt="商品画像" class="mypage-item-card__image-img" src="{{ asset($item->img_url) }}">
-                            </a>
-                            @if ($item->is_sold)
-                                <div class="mypage-item-card__label"></div>
-                            @endif
-                        </div>
-                        <div class="mypage-item-card__name">
-                            {{ $item->name }}
-                        </div>
-                    </div>
-                @endforeach
-            @endif
+        @if ($items->isEmpty())
+            <p class="no-mypage-items">
+                {{ $page === 'buy' ? '購入した商品はありません' : '出品した商品はありません' }}
+            </p>
         @else
-            @if($items->isEmpty())
-                <p class="no-mypage-items">
-                    出品した商品はありません
-                </p>
-            @else
-                @foreach($items as $item)
-                    <div class="mypage-item-card">
-                        <div class="mypage-item-card__image">
-                            <a href="{{ route('item.show', ['item_id' => $item->id]) }}">
-                                <img alt="商品画像" class="mypage-item-card__image-img" src="{{ asset($item->img_url) }}">
-                            </a>
-                            @if ($item->is_sold)
-                                <div class="mypage-item-card__label"></div>
-                            @endif
-                        </div>
-                        <div class="mypage-item-card__name">
-                            {{ $item->name }}
-                        </div>
+            @foreach ($items as $item)
+                <div class="mypage-item-card">
+                    <div class="mypage-item-card__image">
+                        <a href="{{ route('item.show', ['item_id' => $item->id]) }}">
+                            <img
+                                alt="{{ $item->name }}の画像"
+                                class="mypage-item-card__image-img"
+                                src="{{ asset($item->img_url) }}"
+                            >
+                        </a>
+                        @if ($item->is_sold)
+                            <div class="mypage-item-card__label"></div>
+                        @endif
                     </div>
-                @endforeach
-            @endif
+                    <div class="mypage-item-card__name">{{ $item->name }}</div>
+                </div>
+            @endforeach
         @endif
     </div>
 </div>

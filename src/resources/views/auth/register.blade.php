@@ -6,13 +6,14 @@
 
 @section('content')
 <div class="register-container">
-    <h1 class="register-container__title">会員登録</h1>
-
-    <form method="POST" action="{{ route('register') }}" class="register-form">
-        @csrf
+    <h1 class="register-container__title">
+        会員登録
+    </h1>
+    <form action="{{ route('register') }}" class="register-form" method="POST">
+    @csrf
         <div class="register-form__group">
-            <label for="name" class="register-form__label">ユーザー名</label>
-            <input type="text" id="name" name="name" class="register-form__input" value="{{old('name')}}">
+            <label class="register-form__label" for="name">ユーザー名</label>
+            <input class="register-form__input" id="name" name="name" type="text" value="{{old('name')}}">
         </div>
         <div class="error__group">
             @error('name')
@@ -20,8 +21,8 @@
             @enderror
         </div>
         <div class="register-form__group">
-            <label for="email" class="register-form__label">メールアドレス</label>
-            <input type="email" id="email" name="email" class="register-form__input" value="{{old('email')}}">
+            <label class="register-form__label" for="email">メールアドレス</label>
+            <input class="register-form__input" id="email" name="email" type="email" value="{{old('email')}}">
         </div>
         <div class="error__group">
             @error('email')
@@ -29,8 +30,8 @@
             @enderror
         </div>
         <div class="register-form__group">
-            <label for="password" class="register-form__label">パスワード</label>
-            <input type="password" id="password" name="password" class="register-form__input">
+            <label class="register-form__label" for="password">パスワード</label>
+            <input class="register-form__input" id="password" name="password" type="password">
         </div>
         <div class="error__group">
             @error('password')
@@ -38,12 +39,14 @@
             @enderror
         </div>
         <div class="register-form__group">
-            <label for="password_confirmation" class="register-form__label">確認用パスワード</label>
-            <input type="password" id="password_confirmation" name="password_confirmation" class="register-form__input">
+            <label class="register-form__label" for="password_confirmation">確認用パスワード</label>
+            <input class="register-form__input" id="password_confirmation" name="password_confirmation" type="password">
         </div>
-        <button type="submit" class="register-form__button">登録する</button>
+        <button type="submit" class="register-form__button">
+            登録する
+        </button>
         <div class="register-form__login-link">
-            <a href="{{ route('login') }}" class="register-form__login-link-text">ログインはこちら</a>
+            <a class="register-form__login-link-text" href="{{ route('login') }}">ログインはこちら</a>
         </div>
     </form>
 </div>

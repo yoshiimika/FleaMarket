@@ -58,7 +58,9 @@
             @enderror
         </div>
 
-        <button class="profile-form__button" type="submit">更新する</button>
+        <button class="profile-form__button" type="submit">
+            更新する
+        </button>
     </form>
 </div>
 @endsection
