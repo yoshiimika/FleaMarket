@@ -42,7 +42,7 @@ class UserController extends Controller
         }
         $this->saveUserProfile($user, $request);
         $this->saveUserAddress($user, $request);
-        return redirect()->route('home')
+        return redirect()->route('home', ['page' => 'mylist'])
             ->with('success', 'プロフィールが作成されました');
     }
 

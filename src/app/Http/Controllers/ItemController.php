@@ -13,7 +13,11 @@ class ItemController extends Controller
         $keyword = $this->getKeyword($request);
         $items = collect();
         if ($page === 'mylist') {
-            $items = $this->getFavoriteItems($keyword);
+            if ($request->has('auth_skipped')) {
+                $items = collect();
+            } else {
+                $items = $this->getFavoriteItems($keyword);
+            }
         } else {
             $items = $this->getRecommendedItems($keyword);
         }
@@ -29,7 +33,8 @@ class ItemController extends Controller
     public function search(Request $request)
     {
         $keyword = $this->getKeyword($request);
-        return redirect()->route('home', ['keyword' => $keyword]);
+        $previousUrl = $request->headers->get('referer');
+        return redirect($previousUrl . (strpos($previousUrl, '?') === false ? '?' : '&') . 'keyword=' . urlencode($keyword));
     }
 
     private function getKeyword(Request $request)
@@ -46,7 +51,6 @@ class ItemController extends Controller
         if (!auth()->check()) {
             return collect();
         }
-
         return auth()->user()->favoriteItems()
             ->when($keyword, function ($query) use ($keyword) {
                 return $query->where('name', 'LIKE', '%' . $keyword . '%');

@@ -61,13 +61,13 @@ class PurchaseController extends Controller
         ]);
         $item->update(['is_sold' => true]);
         session()->forget(['shopping_zip', 'shopping_address', 'shopping_building', 'payment_method']);
-        return redirect()->route('home')
+        return redirect()->route('home', ['page' => 'mylist'])
             ->with('success', '商品の購入が完了しました');
     }
 
     public function cancel($item_id)
     {
-        return redirect()->route('home')
+        return redirect()->route('home', ['page' => 'mylist'])
             ->with('error', '商品の購入を中止しました');
     }
 }

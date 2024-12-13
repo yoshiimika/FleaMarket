@@ -37,7 +37,7 @@ class ListingController extends Controller
             'img_url' => $this->storeImage($request),
         ]);
         $item->categories()->sync($validated['category_ids']);
-        return redirect()->route('home')
+        return redirect()->route('home', ['page' => 'mylist'])
             ->with('success', '商品を出品しました');
     }
 
