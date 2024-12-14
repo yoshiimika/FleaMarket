@@ -33,6 +33,7 @@ class LoginRequest extends FortifyLoginRequest
     {
         return [
             'email.required' => 'メールアドレスを入力してください',
+            'email.email' => '正しい形式のメールアドレスを入力してください',
             'password.required' => 'パスワードを入力してください',
             'password.min' => 'パスワードは8文字以上で入力してください',
         ];

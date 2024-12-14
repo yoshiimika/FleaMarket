@@ -7,15 +7,6 @@
 
 .profile-container__title {
     font-size: 1.8em;
-    margin-bottom: 20px;
-}
-
-.profile-form {
-    margin-top: 20px;
-}
-
-.error__message {
-    color: red;
 }
 
 .profile-form__avatar {
@@ -75,6 +66,10 @@
     box-sizing: border-box;
 }
 
+.error__message {
+    color: red;
+}
+
 .profile-form__button {
     display: block;
     width: 100%;
@@ -86,5 +81,9 @@
     border-radius: 5px;
     cursor: pointer;
     font-weight: bold;
-    margin-top: 20px;
+    transition: background-color 0.3s;
+}
+
+.profile-form__button:hover {
+    background-color: #e03a3e;
 }

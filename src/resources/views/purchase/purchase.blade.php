@@ -5,11 +5,6 @@
 @endsection
 
 @section('content')
-@if (session('success'))
-    <div class="alert alert-success">
-        {{ session('success') }}
-    </div>
-@endif
 <div class="purchase-container">
     <div class="purchase-details">
         <div class="purchase-item">
@@ -62,27 +57,31 @@
         </div>
     </div>
     <div class="purchase-summary">
-        <div class="summary-box">
-            <p class="summary-box__item">
-                商品代金
-            </p>
-            <p class="summary-box__price">
-                ¥{{ number_format($item->price) }}
-            </p>
+        <div class="summary-details">
+            <div class="summary-box">
+                <p class="summary-box__item">
+                    商品代金
+                </p>
+                <p class="summary-box__price">
+                    ¥{{ number_format($item->price) }}
+                </p>
+            </div>
+            <div class="summary-box">
+                <p class="summary-box__item">
+                    支払い方法
+                </p>
+                <p class="summary-box__value" id="selected_payment_method">
+                    選択してください
+                </p>
+            </div>
         </div>
-        <div class="summary-box">
-            <p class="summary-box__item">
-                支払い方法
-            </p>
-            <p class="summary-box__value" id="selected_payment_method">
-                選択してください
-            </p>
-        </div>
-        <input type="hidden" name="amount" value="{{ $item->price }}">
+        <div class="summary-action">
+            <input type="hidden" name="amount" value="{{ $item->price }}">
             <button class="purchase-summary__button">
                 購入する
             </button>
             </form>
+        </div>
     </div>
 </div>
 @endsection

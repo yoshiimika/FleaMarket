@@ -1,19 +1,5 @@
-.alert {
-    padding: 10px 20px;
-    margin-bottom: 20px;
-    border-radius: 5px;
-    font-size: 14px;
-}
-
-.alert-success {
-    background-color: #d4edda;
-    color: #155724;
-    border: 1px solid #c3e6cb;
-}
-
 .item-container {
     display: flex;
-    margin: 0 auto;
     padding: 20px 40px;
 }
 
@@ -29,18 +15,12 @@
     width: 100%;
     max-width: 400px;
     height: 400px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 5px;
     position: relative;
 }
 
 .item-image__img {
     width: 100%;
     height: auto;
-    object-fit: cover;
-    position: relative;
 }
 
 .item-label {
@@ -70,13 +50,7 @@
     margin-left: 40px;
 }
 
-.item-title {
-    font-size: 1.8em;
-    margin-bottom: 10px;
-}
-
 .item-brand {
-    font-size: 0.8em;
     color: #666;
 }
 
@@ -129,16 +103,16 @@
 .item-button__purchase {
     display: inline-block;
     width: 100%;
-    padding: 12px 20px;
-    background-color: #ff4d4f;
+    padding: 10px;
+    font-size: 1em;
     color: #fff;
-    font-size: 16px;
+    background-color: #ff5a5a;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
     font-weight: bold;
     text-decoration: none;
     text-align: center;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
     margin-top: 20px;
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
@@ -170,7 +144,6 @@
 .item-info__categories,
 .item-info__condition {
     display: flex;
-    align-items: flex-start;
     align-items: center;
 }
 
@@ -180,9 +153,7 @@
 }
 
 .item-info__tags {
-    display: flex;
     gap: 8px;
-    flex-wrap: wrap;
 }
 
 .item-tag {
@@ -191,7 +162,6 @@
     padding: 5px 10px;
     font-size: 0.9rem;
     color: #333;
-    white-space: nowrap;
 }
 
 .comment {
@@ -265,15 +235,16 @@
 .comment-form__button {
     display: inline-block;
     width: 100%;
-    padding: 12px 20px;
-    background-color: #ff4d4f;
+    padding: 10px;
+    font-size: 1em;
     color: #fff;
-    font-size: 16px;
-    font-weight: bold;
-    text-align: center;
+    background-color: #ff5a5a;
     border: none;
-    border-radius: 4px;
+    border-radius: 5px;
     cursor: pointer;
+    font-weight: bold;
+    text-decoration: none;
+    text-align: center;
     margin-top: 20px;
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
