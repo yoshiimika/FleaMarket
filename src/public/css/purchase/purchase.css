@@ -5,7 +5,7 @@
 }
 
 .purchase-details {
-    width: 60%;
+    width: 50%;
 }
 
 .purchase-item {
@@ -33,7 +33,7 @@
 }
 
 .purchase-method__select {
-    width: 30%;
+    width: 50%;
     margin-left: 30px;
     padding: 10px;
     border: 1px solid #ccc;
@@ -67,7 +67,7 @@
 }
 
 .purchase-summary {
-    width: 35%;
+    width: 45%;
     padding: 20px;
 }
 
@@ -100,4 +100,10 @@
 
 .purchase-summary__button:hover {
     background-color: #e03a3e;
+}
+
+@media (max-width: 850px) and (min-width: 768px) {
+.purchase-method__select {
+        width: 60%;
+    }
 }

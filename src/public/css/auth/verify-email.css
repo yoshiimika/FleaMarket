@@ -47,18 +47,3 @@
 .verify-email__button:hover {
     background-color: #e63946;
 }
-
-@media screen and (max-width: 768px) {
-    .verify-email__card {
-        width: 80vw;
-        padding: 50px 10px;
-    }
-
-    .verify-email__title {
-        font-size: 20px;
-    }
-
-    .verify-email__message p {
-        font-size: 15px;
-    }
-}

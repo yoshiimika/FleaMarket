@@ -129,14 +129,8 @@
     font-weight: bold;
 }
 
-@media (max-width: 850px) {
+@media (max-width: 850px) and (min-width: 768px) {
     .mypage-item-card {
-        width: calc(50% - 20px);
-    }
-}
-
-@media (max-width: 480px) {
-    .mypage-item-card {
-        width: 100%;
-    }
+            width: calc(50% - 20px);
+        }
 }

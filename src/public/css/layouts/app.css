@@ -73,24 +73,15 @@
     border: 1px solid #e6c3c3;
 }
 
-/* @media (max-width: 850px) {
+@media (max-width: 850px) and (min-width: 768px) {
     .header {
-        padding: 7.5px 15px;
+        flex-wrap: wrap;
     }
 
-    .header__logo-img {
-        width: 200px;
-        height: auto;
+    .header__search-bar {
+        flex: none;
+        margin: 10px 0;
+        width: 100%;
+        max-width: 300px;
     }
 }
-
-@media (max-width: 480px) {
-    .header {
-        padding: 5px 10px;
-    }
-
-    .header__logo-img {
-        width: 175px;
-        height: auto;
-    }
-} */
