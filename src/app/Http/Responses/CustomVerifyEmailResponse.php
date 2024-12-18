@@ -3,7 +3,6 @@
 namespace App\Http\Responses;
 
 use Laravel\Fortify\Contracts\VerifyEmailResponse as VerifyEmailResponseContract;
-use Illuminate\Http\Request;
 
 class CustomVerifyEmailResponse implements VerifyEmailResponseContract
 {

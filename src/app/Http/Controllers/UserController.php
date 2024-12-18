@@ -14,16 +14,33 @@ class UserController extends Controller
     {
         $user = auth()->user();
         $page = $request->query('page', 'sell');
+        $keyword = $this->getKeyword($request);
+        $items = collect();
         if ($page === 'sell') {
-            $items = Item::where('user_id', $user->id)->get();
+            $items = Item::where('user_id', $user->id)
+                ->when($keyword, function ($query) use ($keyword) {
+                    return $query->where('name', 'LIKE', '%' . $keyword . '%');
+                })
+                ->get();
         } elseif ($page === 'buy') {
             $items = Item::whereHas('purchases', function ($query) use ($user) {
-            $query->where('user_id', $user->id);
-        })->get();
-        } else {
-            $items = collect();
+                    $query->where('user_id', $user->id);
+                })
+                ->when($keyword, function ($query) use ($keyword) {
+                    return $query->where('name', 'LIKE', '%' . $keyword . '%');
+                })
+                ->get();
         }
-        return view('mypage.mypage', compact('user', 'page', 'items'));
+        return view('mypage.mypage', compact('user', 'page', 'items', 'keyword'));
+    }
+
+    private function getKeyword(Request $request)
+    {
+        $keyword = $request->query('keyword', session('keyword', ''));
+        if ($request->has('keyword')) {
+            session(['keyword' => $keyword]);
+        }
+        return $keyword;
     }
 
     public function editProfile()

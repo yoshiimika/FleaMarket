@@ -70,7 +70,7 @@ class Item extends Model
         return $this->comments()->count();
     }
 
-    public function getIsPurchasedAttribute()
+    public function getIsSoldAttribute()
     {
         return $this->purchases()->exists();
     }

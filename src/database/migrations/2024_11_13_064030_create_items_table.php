@@ -23,7 +23,6 @@ class CreateItemsTable extends Migration
             $table->decimal('price', 10, 2);
             $table->string('img_url');
             $table->string('condition');
-            $table->boolean('is_sold')->default(false);
             $table->timestamps();
         });
     }

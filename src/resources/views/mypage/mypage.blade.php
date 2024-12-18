@@ -50,7 +50,9 @@
                             >
                         </a>
                         @if ($item->is_sold)
-                            <div class="mypage-item-card__label"></div>
+                            <div class="mypage-item-card__label">
+                                <span class="mypage-item-card__text">SOLD</span>
+                            </div>
                         @endif
                     </div>
                     <div class="mypage-item-card__name">{{ $item->name }}</div>

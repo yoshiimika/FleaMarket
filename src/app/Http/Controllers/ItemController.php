@@ -13,11 +13,7 @@ class ItemController extends Controller
         $keyword = $this->getKeyword($request);
         $items = collect();
         if ($page === 'mylist') {
-            if ($request->has('auth_skipped')) {
-                $items = collect();
-            } else {
-                $items = $this->getFavoriteItems($keyword);
-            }
+            $items = $this->getFavoriteItems($keyword);
         } else {
             $items = $this->getRecommendedItems($keyword);
         }

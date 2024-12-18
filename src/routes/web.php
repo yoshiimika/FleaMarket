@@ -21,8 +21,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [ItemController::class, 'index'])
-    ->middleware('verified.query')
-    ->name('home');
+->name('home');
 
 Route::get('/search', [ItemController::class, 'search'])
 ->name('item.search');

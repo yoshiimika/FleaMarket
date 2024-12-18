@@ -7,6 +7,7 @@ use App\Actions\Fortify\CreateNewUser;
 // use App\Actions\Fortify\UpdateUserPassword;
 // use App\Actions\Fortify\UpdateUserProfileInformation;
 use App\Http\Requests\LoginRequest;
+use App\Http\Responses\CustomRegisterResponse;
 use App\Http\Responses\CustomVerifyEmailResponse;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
@@ -14,6 +15,7 @@ use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 // use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
+use Laravel\Fortify\Contracts\RegisterResponse;
 use Laravel\Fortify\Contracts\VerifyEmailResponse;
 use Laravel\Fortify\Fortify;
 use Laravel\Fortify\Http\Requests\LoginRequest as FortifyLoginRequest;
@@ -55,6 +57,8 @@ class FortifyServiceProvider extends ServiceProvider
             return view('auth.register');
         });
 
+        $this->app->singleton(RegisterResponse::class,CustomRegisterResponse::class);
+
         Fortify::loginView(function () {
             return view('auth.login');
         });
@@ -65,15 +69,5 @@ class FortifyServiceProvider extends ServiceProvider
         });
 
         $this->app->bind(FortifyLoginRequest::class,LoginRequest::class);
-
-        Fortify::authenticateUsing(function (LoginRequest $request) {
-            $user = \App\Models\User::where('email', $request->email)->first();
-            if (!$user || !\Hash::check($request->password, $user->password)) {
-                throw ValidationException::withMessages([
-                    'auth.failed' => 'ログイン情報が登録されていません',
-                ]);
-            }
-            return $user;
-        });
     }
 }

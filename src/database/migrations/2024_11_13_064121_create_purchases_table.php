@@ -19,9 +19,9 @@ class CreatePurchasesTable extends Migration
             $table->foreignId('item_id')->constrained()->onDelete('cascade');
             $table->decimal('amount', 10, 2);
             $table->string('payment_method', 50);
-            $table->string('shipping_zip', 20);
-            $table->string('shipping_address');
-            $table->string('shipping_building')->nullable();
+            $table->string('shopping_zip', 20);
+            $table->string('shopping_address');
+            $table->string('shopping_building')->nullable();
             $table->timestamps();
         });
     }

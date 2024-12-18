@@ -34,7 +34,9 @@
                                 src="{{ asset($item->img_url) }}">
                         </a>
                         @if ($item->is_sold)
-                            <div class="item-card__label"></div>
+                            <div class="item-card__label">
+                                <span class="item-card__text">SOLD</span>
+                            </div>
                         @endif
                     </div>
                     <div class="item-card__name">

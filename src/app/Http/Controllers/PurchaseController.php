@@ -54,12 +54,11 @@ class PurchaseController extends Controller
         $purchase = $user->purchases()->create([
             'item_id' => $item->id,
             'amount' => $amount,
-            'shipping_zip' => session('shopping_zip', $user->address->zip),
-            'shipping_address' => session('shopping_address', $user->address->address),
-            'shipping_building' => session('shopping_building', $user->address->building),
+            'shopping_zip' => session('shopping_zip', $user->address->zip),
+            'shopping_address' => session('shopping_address', $user->address->address),
+            'shopping_building' => session('shopping_building', $user->address->building),
             'payment_method' => session('payment_method', 'card'),
         ]);
-        $item->update(['is_sold' => true]);
         session()->forget(['shopping_zip', 'shopping_address', 'shopping_building', 'payment_method']);
         return redirect()->route('home', ['page' => 'mylist'])
             ->with('success', '商品の購入が完了しました');

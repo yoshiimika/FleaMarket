@@ -10,7 +10,9 @@
         <div class="item-image__placeholder">
             <img alt="{{ $item->name }}の画像" class="item-image__img" src="{{ asset($item->img_url) }}">
             @if ($item->is_sold)
-                <div class="item-label"></div>
+                <div class="item-label">
+                    <span class="item-text">SOLD</span>
+                </div>
             @endif
         </div>
     </div>
