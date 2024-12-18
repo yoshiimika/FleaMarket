@@ -17,10 +17,10 @@ class MyListTest extends TestCase
      */
     public function test_only_favorited_items_are_displayed()
     {
-        Item::factory()->create();
         $user = User::factory()->create();
         $favoriteItem = Item::factory()->create();
         $user->favoriteItems()->attach($favoriteItem->id);
+        $nonFavoriteItem = Item::factory()->create();
 
         $response = $this->actingAs($user)->get('/?page=mylist');
 
@@ -35,23 +35,22 @@ class MyListTest extends TestCase
     public function test_purchased_items_display_sold_label()
     {
         $user = User::factory()->create();
-        $purchasedItem = Item::factory()->create();
-        $user->favoriteItems()->attach($purchasedItem->id);
+        $purchasedFavoriteItem = Item::factory()->create();
+        $user->favoriteItems()->attach($purchasedFavoriteItem->id);
         Purchase::factory()->create([
             'user_id' => $user->id,
-            'item_id' => $purchasedItem->id,
-            'amount' => 5000,
-            'payment_method' => 'credit_card',
-            'shopping_zip' => '123-4567',
-            'shopping_address' => '東京都新宿区1-2-3',
+            'item_id' => $purchasedFavoriteItem->id,
         ]);
         $otherFavoriteItem = Item::factory()->create();
         $user->favoriteItems()->attach($otherFavoriteItem->id);
 
         $response = $this->actingAs($user)->get('/?page=mylist');
 
+        $response->assertSee($purchasedFavoriteItem->name);
         $response->assertSee('SOLD');
-        $response->assertDontSee('No items');
+
+        $response->assertSee($otherFavoriteItem->name);
+        $response->assertDontSee($otherFavoriteItem->name . ' SOLD');
     }
 
     /**
@@ -63,7 +62,6 @@ class MyListTest extends TestCase
         $userItem = Item::factory()->create(['user_id' => $user->id]);
         $otherItem = Item::factory()->create();
         $user->favoriteItems()->attach($otherItem->id);
-        Item::factory()->create();
 
         $response = $this->actingAs($user)->get('/?page=mylist');
 

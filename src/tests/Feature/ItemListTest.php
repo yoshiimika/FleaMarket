@@ -35,15 +35,16 @@ class ItemListTest extends TestCase
         Purchase::factory()->create([
             'user_id' => $user->id,
             'item_id' => $purchasedItem->id,
-            'amount' => 5000,
-            'payment_method' => 'credit_card',
-            'shopping_zip' => '123-4567',
-            'shopping_address' => '東京都新宿区1-2-3',
         ]);
+        $unpurchasedItem = Item::factory()->create();
 
         $response = $this->get('/');
 
+        $response->assertSee($purchasedItem->name);
         $response->assertSee('SOLD');
+
+        $response->assertSee($unpurchasedItem->name);
+        $response->assertDontSee($unpurchasedItem->name . ' SOLD');
     }
 
     /**

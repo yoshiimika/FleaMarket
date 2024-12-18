@@ -62,7 +62,6 @@ class ItemController extends Controller
             ->when($keyword, function ($query) use ($keyword) {
                 return $query->where('name', 'LIKE', '%' . $keyword . '%');
             })
-            ->latest()
             ->get();
     }
 }
