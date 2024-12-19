@@ -23,6 +23,8 @@ class MyListTest extends TestCase
         $nonFavoriteItem = Item::factory()->create();
 
         $response = $this->actingAs($user)->get('/?page=mylist');
+        $response->assertStatus(200);
+        $response->assertViewIs('index');
 
         $response->assertViewHas('items', function ($items) use ($favoriteItem) {
             return $items->contains($favoriteItem) && $items->count() === 1;
@@ -45,6 +47,8 @@ class MyListTest extends TestCase
         $user->favoriteItems()->attach($otherFavoriteItem->id);
 
         $response = $this->actingAs($user)->get('/?page=mylist');
+        $response->assertStatus(200);
+        $response->assertViewIs('index');
 
         $response->assertSee($purchasedFavoriteItem->name);
         $response->assertSee('SOLD');
@@ -64,6 +68,8 @@ class MyListTest extends TestCase
         $user->favoriteItems()->attach($otherItem->id);
 
         $response = $this->actingAs($user)->get('/?page=mylist');
+        $response->assertStatus(200);
+        $response->assertViewIs('index');
 
         $response->assertViewHas('items', function ($items) use ($otherItem) {
             return $items->contains($otherItem) && $items->count() === 1;
@@ -77,6 +83,7 @@ class MyListTest extends TestCase
     {
         $response = $this->get('/?page=mylist');
         $response->assertStatus(200);
+        $response->assertViewIs('index');
 
         $response->assertViewHas('items', function ($items) {
             return $items->isEmpty();

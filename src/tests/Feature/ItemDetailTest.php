@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Comment;
 use App\Models\Item;
@@ -18,38 +19,44 @@ class ItemDetailTest extends TestCase
      */
     public function test_item_details_are_displayed()
     {
-        // テスト用のユーザーと商品を作成
         $user = User::factory()->create();
-        $item = Item::factory()->create([
-            'name' => 'iPhone 13',
-            'brand_name' => 'Apple',
-            'price' => 120000,
-            'description' => '最新のiPhone 13です。',
-            'condition' => '新品',
-            'likes_count' => 5,
+        $brand = Brand::factory()->create([
+            'name' => 'Apple',
         ]);
-
-        // コメントを追加
-        Comment::factory()->create([
+        $category = $brand->category;
+        $item = Item::factory()->create([
+            'brand_id' => $brand->id,
+            'name' => 'iPhone 13',
+            'color' => 'ブラック',
+            'description' => '最新のiPhone 13です。',
+            'price' => 10000,
+            'img_url' => 'https://via.placeholder.com/640x480.png?text=iPhone13',
+            'condition' => '良好',
+        ]);
+        $item->categories()->attach($category->id);
+        $user->favoriteItems()->attach($item->id);
+        $comment = Comment::factory()->create([
             'item_id' => $item->id,
             'user_id' => $user->id,
-            'content' => '素晴らしい商品です！',
+            'content' => '値下げ可能ですか？',
         ]);
 
-        // 商品詳細ページにアクセス
-        $response = $this->get('/{item_id}' . $item->id);
-
-        // ステータスコード200を確認
+        $response = $this->actingAs($user)->get('/item/' . $item->id);
         $response->assertStatus(200);
+        $response->assertViewIs('item');
 
-        // 商品詳細情報が正しく表示されることを確認
-        $response->assertSee('iPhone 13');
-        $response->assertSee('Apple');
-        $response->assertSee('120000');
-        $response->assertSee('5'); // いいね数
-        $response->assertSee('最新のiPhone 13です。');
-        $response->assertSee('新品');
-        $response->assertSee('素晴らしい商品です！'); // コメント内容
+        $response->assertSee(htmlspecialchars($item->img_url, ENT_QUOTES, 'UTF-8'));
+        $response->assertSee($item->name);
+        $response->assertSee($brand->name);
+        $response->assertSee('¥' . number_format($item->price));
+        $response->assertSee((string) $item->favorites_count);
+        $response->assertSee((string) $item->comments_count);
+        $response->assertSee($item->description);
+        $response->assertSee($item->color);
+        $response->assertSee($category->name);
+        $response->assertSee($item->condition);
+        $response->assertSee($user->name);
+        $response->assertSee($comment->content);
     }
 
     /**
@@ -57,22 +64,16 @@ class ItemDetailTest extends TestCase
      */
     public function test_multiple_categories_are_displayed()
     {
-        // 商品とカテゴリを作成
-        $item = Item::factory()->create(['name' => 'Galaxy S22']);
+        $item = Item::factory()->create(['name' => 'iPhone 13']);
         $category1 = Category::factory()->create(['name' => 'スマートフォン']);
-        $category2 = Category::factory()->create(['name' => 'Android']);
-
-        // 商品にカテゴリを関連付け
+        $category2 = Category::factory()->create(['name' => '電子機器']);
         $item->categories()->attach([$category1->id, $category2->id]);
 
-        // 商品詳細ページにアクセス
-        $response = $this->get('/{item_id}' . $item->id);
-
-        // ステータスコード200を確認
+        $response = $this->get('/item/' . $item->id);
         $response->assertStatus(200);
+        $response->assertViewIs('item');
 
-        // 複数カテゴリが表示されることを確認
         $response->assertSee('スマートフォン');
-        $response->assertSee('Android');
+        $response->assertSee('電子機器');
     }
 }

@@ -48,9 +48,9 @@ class ItemSearchTest extends TestCase
         $response->assertSee('Apple iPhone');
         $response->assertDontSee('Samsung Galaxy');
 
-        $this->assertEquals('Apple', session('keyword'));
         $response = $this->actingAs($user)->get('/?page=mylist');
 
+        $this->assertEquals('Apple', session('keyword'));
         $response->assertStatus(200);
         $response->assertViewHas('items', function ($items) use ($favoriteItem1, $favoriteItem2) {
             return $items->contains($favoriteItem1) && !$items->contains($favoriteItem2);

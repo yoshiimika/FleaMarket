@@ -18,8 +18,11 @@ class ItemListTest extends TestCase
     public function test_all_items_are_displayed()
     {
         Item::factory()->count(5)->create();
+
         $response = $this->get('/');
         $response->assertStatus(200);
+        $response->assertViewIs('index');
+
         $response->assertViewHas('items', function ($items) {
             return $items->count() === 5;
         });
@@ -39,6 +42,8 @@ class ItemListTest extends TestCase
         $unpurchasedItem = Item::factory()->create();
 
         $response = $this->get('/');
+        $response->assertStatus(200);
+        $response->assertViewIs('index');
 
         $response->assertSee($purchasedItem->name);
         $response->assertSee('SOLD');
@@ -57,6 +62,8 @@ class ItemListTest extends TestCase
         $otherItem = Item::factory()->create();
 
         $response = $this->actingAs($user)->get('/');
+        $response->assertStatus(200);
+        $response->assertViewIs('index');
 
         $response->assertViewHas('items', function ($items) use ($otherItem) {
             return $items->contains($otherItem) && $items->count() === 1;
