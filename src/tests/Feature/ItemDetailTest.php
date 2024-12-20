@@ -41,7 +41,7 @@ class ItemDetailTest extends TestCase
             'content' => '値下げ可能ですか？',
         ]);
 
-        $response = $this->actingAs($user)->get('/item/' . $item->id);
+        $response = $this->get('/item/' . $item->id);
         $response->assertStatus(200);
         $response->assertViewIs('item');
 
@@ -49,13 +49,14 @@ class ItemDetailTest extends TestCase
         $response->assertSee($item->name);
         $response->assertSee($brand->name);
         $response->assertSee('¥' . number_format($item->price));
-        $response->assertSee((string) $item->favorites_count);
-        $response->assertSee((string) $item->comments_count);
-        $response->assertSee($item->description);
+        $response->assertSee($item->favorites_count);
+        $response->assertSee($item->comments_count);
         $response->assertSee($item->color);
+        $response->assertSee($item->description);
         $response->assertSee($category->name);
         $response->assertSee($item->condition);
-        $response->assertSee($user->name);
+        $response->assertSee(htmlspecialchars($comment->user->img_url, ENT_QUOTES, 'UTF-8'));
+        $response->assertSee($comment->user->name);
         $response->assertSee($comment->content);
     }
 

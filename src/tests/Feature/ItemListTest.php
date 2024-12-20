@@ -49,7 +49,7 @@ class ItemListTest extends TestCase
         $response->assertSee('SOLD');
 
         $response->assertSee($unpurchasedItem->name);
-        $response->assertDontSee($unpurchasedItem->name . ' SOLD');
+        $response->assertDontSee($unpurchasedItem->name . 'SOLD');
     }
 
     /**

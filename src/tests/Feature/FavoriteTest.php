@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Models\Product;
+use App\Models\Item;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -12,70 +12,73 @@ class FavoriteTest extends TestCase
     use RefreshDatabase;
 
     /**
-     * いいねアイコンを押すと、商品がいいねとして登録されることをテスト.
+     * いいねアイコンを押下することによって、いいねした商品として登録することができることをテスト
      */
-    public function test_user_can_like_a_product()
+    public function test_user_can_like_a_item()
     {
-        // ユーザーと商品を作成
         $user = User::factory()->create();
-        $product = Product::factory()->create();
+        $item = Item::factory()->create();
 
-        // ユーザーをログイン状態にして、いいねリクエストを送信
-        $response = $this->actingAs($user)->post('/products/' . $product->id . '/favorite');
-
-        // ステータスコードが200であることを確認
+        $response = $this->actingAs($user)->get('/item/' . $item->id);
         $response->assertStatus(200);
+        $response->assertViewIs('item');
 
-        // データベースにいいね情報が登録されていることを確認
-        $this->assertDatabaseHas('favorites', [
-            'user_id' => $user->id,
-            'product_id' => $product->id,
-        ]);
+        $this->assertEquals(0, $item->favorites_count);
 
-        // いいね合計値が増加することを確認
-        $this->assertEquals(1, $product->favorites()->count());
+        $response = $this->actingAs($user)
+            ->followingRedirects()
+            ->post('/item/' . $item->id . '/favorite');
+
+        $this->assertEquals(1, $item->refresh()->favorites_count);
+        $this->assertTrue($item->favoriteByUsers()->where('user_id', $user->id)->exists());
     }
 
     /**
-     * いいね済みのアイコンが状態変化することをテスト.
+     * 追加済みのアイコンは色が変化することをテスト
      */
-    public function test_liked_product_icon_changes_color()
+    public function test_liked_item_icon_changes_color()
     {
-        // ユーザーと商品を作成し、いいね状態にする
         $user = User::factory()->create();
-        $product = Product::factory()->create();
-        $product->favorites()->attach($user->id); // いいね登録
+        $item = Item::factory()->create();
 
-        // 商品詳細ページにアクセス
-        $response = $this->actingAs($user)->get('/products/' . $product->id);
+        $response = $this->actingAs($user)->get('/item/' . $item->id);
+        $response->assertStatus(200);
+        $response->assertViewIs('item');
 
-        // いいね済みのアイコンが表示されていることを確認
-        $response->assertSee('class="icon--liked"'); // 実際のHTMLクラス名に合わせて修正
+        $responseContent = $response->getContent();
+        $this->assertStringContainsString('class="favorite-icon"', $responseContent);
+        $this->assertStringNotContainsString('class="favorite-icon active"', $responseContent);
+
+        $response = $this->actingAs($user)
+            ->followingRedirects()
+            ->post('/item/' . $item->id . '/favorite');
+
+        $responseContent = $response->getContent();
+        $this->assertStringContainsString('class="favorite-icon active"', $responseContent);
+        $this->assertStringNotContainsString('class="favorite-icon"', $responseContent);
     }
 
     /**
-     * いいねアイコンを再度押すと、いいねが解除されることをテスト.
+     * 再度いいねアイコンを押下することによって、いいねを解除することができることをテスト
      */
-    public function test_user_can_unlike_a_product()
+    public function test_user_can_unlike_a_item()
     {
-        // ユーザーと商品を作成し、いいね状態にする
         $user = User::factory()->create();
-        $product = Product::factory()->create();
-        $product->favorites()->attach($user->id); // いいね登録
+        $item = Item::factory()->create();
+        $user->favoriteItems()->attach($item->id);
 
-        // ユーザーをログイン状態にして、いいね解除リクエストを送信
-        $response = $this->actingAs($user)->delete('/products/' . $product->id . '/favorite');
-
-        // ステータスコードが200であることを確認
+        $response = $this->actingAs($user)->get('/item/' . $item->id);
         $response->assertStatus(200);
+        $response->assertViewIs('item');
 
-        // データベースからいいね情報が削除されていることを確認
-        $this->assertDatabaseMissing('favorites', [
-            'user_id' => $user->id,
-            'product_id' => $product->id,
-        ]);
+        $this->assertEquals(1, $item->refresh()->favorites_count);
+        $this->assertTrue($item->favoriteByUsers()->where('user_id', $user->id)->exists());
 
-        // いいね合計値が減少することを確認
-        $this->assertEquals(0, $product->favorites()->count());
+        $response = $this->actingAs($user)
+            ->followingRedirects()
+            ->post('/item/' . $item->id . '/favorite');
+
+        $this->assertEquals(0, $item->refresh()->favorites_count);
+        $this->assertFalse($item->favoriteByUsers()->where('user_id', $user->id)->exists());
     }
 }
