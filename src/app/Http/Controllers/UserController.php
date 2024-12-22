@@ -23,7 +23,7 @@ class UserController extends Controller
                 })
                 ->get();
         } elseif ($page === 'buy') {
-            $items = Item::whereHas('purchases', function ($query) use ($user) {
+            $items = Item::whereHas('purchase', function ($query) use ($user) {
                     $query->where('user_id', $user->id);
                 })
                 ->when($keyword, function ($query) use ($keyword) {

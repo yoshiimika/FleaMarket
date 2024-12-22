@@ -32,8 +32,6 @@ class PurchaseRequest extends FormRequest
     {
         return [
             'payment_method.required' => '支払い方法を選択してください',
-            'payment_method.string' => '支払い方法が不正です',
-            'payment_method.max' => '支払い方法は50文字以内で指定してください',
         ];
     }
 }

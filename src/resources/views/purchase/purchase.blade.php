@@ -10,18 +10,18 @@
         <div class="purchase-item">
             <img alt="{{ $item->name }}の画像" class="purchase-item__image" src="{{ asset($item->img_url) }}">
             <div class="purchase-item__info">
-                <h2 class="purchase-item__name">
+                <h1 class="purchase-item__name">
                     {{ $item->name }}
-                </h2>
+                </h1>
                 <p class="purchase-item__price">
                     ¥{{ number_format($item->price) }}
                 </p>
             </div>
         </div>
         <div class="purchase-method">
-            <h3>
+            <h2 class="purchase-method__title">
                 支払い方法
-            </h3>
+            </h2>
             <form action="{{ route('purchase', $item->id) }}" method="POST">
             @csrf
                 <select class="purchase-method__select" id="payment_method_select" name="payment_method">
@@ -36,9 +36,9 @@
         </div>
         <div class="purchase-address">
             <div class="purchase-address__header">
-                <h3 class="purchase-address__title">
+                <h2 class="purchase-address__title">
                     配送先
-                </h3>
+                </h2>
                 <a class="purchase-address__change-link" href="{{ route('address.edit', ['item_id' => $item->id]) }}">
                     変更する
                 </a>

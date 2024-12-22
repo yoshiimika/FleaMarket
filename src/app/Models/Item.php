@@ -31,7 +31,7 @@ class Item extends Model
         return $this->belongsToMany(User::class, 'favorites');
     }
 
-    public function purchases()
+    public function purchase()
     {
         return $this->hasOne(Purchase::class);
     }
@@ -61,7 +61,7 @@ class Item extends Model
 
     public function getIsSoldAttribute()
     {
-        return $this->purchases()->exists();
+        return $this->purchase()->exists();
     }
 
     public function getFavoritesCountAttribute()

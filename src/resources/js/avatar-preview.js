@@ -8,7 +8,10 @@ document.addEventListener('DOMContentLoaded', function () {
             if (file) {
                 const reader = new FileReader();
                 reader.onload = function (e) {
-                    avatarPreview.src = e.target.result;
+                    if (avatarPreview) {
+                        avatarPreview.src = e.target.result;
+                        avatarPreview.style.display = 'block';
+                    }
                 };
                 reader.readAsDataURL(file);
             }

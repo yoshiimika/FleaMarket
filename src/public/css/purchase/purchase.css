@@ -14,6 +14,11 @@
     padding-bottom: 30px;
 }
 
+.purchase-item__name {
+    font-size: 24px;
+    font-weight: bold;
+}
+
 .purchase-item__image {
     width: 150px;
     height: 150px;
@@ -30,6 +35,11 @@
 .purchase-address {
     padding: 30px;
     border-bottom: 1px solid black;
+}
+
+.purchase-method__title {
+    font-size: 16px;
+    font-weight: bold;
 }
 
 .purchase-method__select {

@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ExhibitionRequest;
 use App\Models\Brand;
 use App\Models\Category;
-use App\Models\Item;
 use Illuminate\Support\Facades\Storage;
 
 class ListingController extends Controller

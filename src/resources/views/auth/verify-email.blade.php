@@ -7,9 +7,9 @@
 @section('content')
 <div class="verify-email">
     <div class="verify-email__card">
-        <h2 class="verify-email__title">
+        <h1 class="verify-email__title">
             {{ __('メールアドレスの確認') }}
-        </h2>
+        </h1>
         <div class="verify-email__message">
         @if (session('status') == 'verification-link-sent')
             <div class="verify-email__alert verify-email__alert--success" role="alert">

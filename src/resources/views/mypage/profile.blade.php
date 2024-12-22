@@ -18,6 +18,8 @@
             <div class="profile-form__avatar-preview">
                 @if ($user->img_url)
                     <img class="profile-form__avatar-img" id="avatar-preview" src="{{ asset('storage/' . $user->img_url) }}">
+                @else
+                    <img class="profile-form__avatar-img" id="avatar-preview" style="display: none;">
                 @endif
             </div>
             <div class="profile-form__avatar-upload">
