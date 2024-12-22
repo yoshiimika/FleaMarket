@@ -19,7 +19,6 @@ class Item extends Model
         'price',
         'img_url',
         'condition',
-        'is_sold'
     ];
 
     public function user()
@@ -60,6 +59,11 @@ class Item extends Model
         return $this->favoriteByUsers()->where('user_id', Auth::id())->exists();
     }
 
+    public function getIsSoldAttribute()
+    {
+        return $this->purchases()->exists();
+    }
+
     public function getFavoritesCountAttribute()
     {
         return $this->favoriteByUsers()->count();
@@ -68,10 +72,5 @@ class Item extends Model
     public function getCommentsCountAttribute()
     {
         return $this->comments()->count();
-    }
-
-    public function getIsSoldAttribute()
-    {
-        return $this->purchases()->exists();
     }
 }

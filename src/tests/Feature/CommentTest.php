@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Models\Product;
+use App\Models\Item;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -12,79 +12,77 @@ class CommentTest extends TestCase
     use RefreshDatabase;
 
     /**
-     * ログイン済みユーザーがコメントを送信できることをテスト.
+     * ログイン済みのユーザーはコメントを送信できることをテスト
      */
     public function test_authenticated_user_can_send_comment()
     {
-        // ユーザーと商品を作成
         $user = User::factory()->create();
-        $product = Product::factory()->create();
+        $item = Item::factory()->create();
+        $this->assertDatabaseMissing('comments', [
+            'user_id' => $user->id,
+            'item_id' => $item->id,
+            'content' => 'これはテストコメントです。',
+        ]);
+        $this->assertEquals(0, $item->comments_count);
 
-        // ユーザーをログイン状態にし、コメントを送信
-        $response = $this->actingAs($user)->post('/products/' . $product->id . '/comments', [
+        $this->actingAs($user)->post('/item/' . $item->id . '/comment', [
             'content' => 'これはテストコメントです。',
         ]);
 
-        // ステータスコード200を確認
-        $response->assertStatus(200);
-
-        // コメントがデータベースに保存されていることを確認
         $this->assertDatabaseHas('comments', [
             'user_id' => $user->id,
-            'product_id' => $product->id,
+            'item_id' => $item->id,
             'content' => 'これはテストコメントです。',
         ]);
+        $this->assertEquals(1, $item->refresh()->comments_count);
     }
 
     /**
-     * ログインしていないユーザーはコメントを送信できないことをテスト.
+     * ログイン前のユーザーはコメントを送信できないことをテスト
      */
     public function test_guest_cannot_send_comment()
     {
-        $product = Product::factory()->create();
+        $item = Item::factory()->create();
 
-        // 未認証状態でコメント送信リクエストを送信
-        $response = $this->post('/products/' . $product->id . '/comments', [
+        $response = $this->post('/item/' . $item->id . '/comment', [
             'content' => '未認証ユーザーのコメント',
         ]);
 
-        // 未認証ユーザーはログインページにリダイレクトされることを確認
         $response->assertRedirect('/login');
+        $this->assertDatabaseMissing('comments', [
+            'item_id' => $item->id,
+            'content' => '未認証ユーザーのコメント',
+        ]);
     }
 
     /**
-     * コメントが未入力の場合、バリデーションメッセージが表示されることをテスト.
+     * コメントが入力されていない場合、バリデーションメッセージが表示されることをテスト
      */
     public function test_comment_requires_content()
     {
         $user = User::factory()->create();
-        $product = Product::factory()->create();
+        $item = Item::factory()->create();
 
-        // 空のコメント内容を送信
-        $response = $this->actingAs($user)->post('/products/' . $product->id . '/comments', [
+        $response = $this->actingAs($user)->post('/item/' . $item->id . '/comment', [
             'content' => '',
         ]);
 
-        // バリデーションエラーが返されることを確認
         $response->assertSessionHasErrors(['content' => 'コメントを入力してください']);
     }
 
     /**
-     * コメントが255文字以上の場合、バリデーションメッセージが表示されることをテスト.
+     * コメントが255文字以上の場合、バリデーションメッセージが表示されることをテスト
      */
     public function test_comment_must_not_exceed_255_characters()
     {
         $user = User::factory()->create();
-        $product = Product::factory()->create();
+        $item = Item::factory()->create();
 
-        // 256文字のコメントを送信
         $longComment = str_repeat('あ', 256);
-
-        $response = $this->actingAs($user)->post('/products/' . $product->id . '/comments', [
+        $response = $this->actingAs($user)->post('/item/' . $item->id . '/comment', [
             'content' => $longComment,
         ]);
 
-        // バリデーションエラーが返されることを確認
         $response->assertSessionHasErrors(['content' => 'コメントは255文字以内で入力してください']);
     }
 }

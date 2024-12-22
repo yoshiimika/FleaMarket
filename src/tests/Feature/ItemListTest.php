@@ -29,7 +29,7 @@ class ItemListTest extends TestCase
     }
 
     /**
-     * 購入済み商品には「SOLD」と表示されることをテスト
+     * 購入済み商品は「SOLD」と表示されることをテスト
      */
     public function test_purchased_items_display_sold_label()
     {
@@ -53,7 +53,7 @@ class ItemListTest extends TestCase
     }
 
     /**
-     * 自分が出品した商品が表示されないことをテスト
+     * 自分が出品した商品は表示されないことをテスト
      */
     public function test_user_items_are_not_displayed_in_list()
     {
@@ -65,8 +65,8 @@ class ItemListTest extends TestCase
         $response->assertStatus(200);
         $response->assertViewIs('index');
 
-        $response->assertViewHas('items', function ($items) use ($otherItem) {
-            return $items->contains($otherItem) && $items->count() === 1;
+        $response->assertViewHas('items', function ($items) use ($userItem, $otherItem) {
+            return !$items->contains($userItem) && $items->contains($otherItem) && $items->count() === 1;
         });
     }
 }

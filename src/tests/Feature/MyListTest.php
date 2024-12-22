@@ -26,8 +26,8 @@ class MyListTest extends TestCase
         $response->assertStatus(200);
         $response->assertViewIs('index');
 
-        $response->assertViewHas('items', function ($items) use ($favoriteItem) {
-            return $items->contains($favoriteItem) && $items->count() === 1;
+        $response->assertViewHas('items', function ($items) use ($nonFavoriteItem, $favoriteItem) {
+            return $items->contains($favoriteItem) && !$items->contains($nonFavoriteItem) && $items->count() === 1;
         });
     }
 
@@ -71,8 +71,8 @@ class MyListTest extends TestCase
         $response->assertStatus(200);
         $response->assertViewIs('index');
 
-        $response->assertViewHas('items', function ($items) use ($otherItem) {
-            return $items->contains($otherItem) && $items->count() === 1;
+        $response->assertViewHas('items', function ($items) use ($userItem, $otherItem) {
+            return !$items->contains($userItem) && $items->contains($otherItem) && $items->count() === 1;
         });
     }
 

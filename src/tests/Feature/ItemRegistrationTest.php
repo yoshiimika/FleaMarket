@@ -2,10 +2,12 @@
 
 namespace Tests\Feature;
 
+use App\Models\Brand;
 use App\Models\Category;
-use App\Models\Item;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class ItemRegistrationTest extends TestCase
@@ -13,39 +15,59 @@ class ItemRegistrationTest extends TestCase
     use RefreshDatabase;
 
     /**
-     * 商品出品画面で必要な情報が正しく保存されることをテスト.
+     * 商品出品画面にて必要な情報が保存できることをテスト
      */
     public function test_item_registration_saves_correct_information()
     {
-        // ユーザーを作成しログイン状態にする
+        Storage::fake('public');
+
         $user = User::factory()->create();
-
-        // カテゴリを作成
-        $category = Category::factory()->create(['name' => '家電']);
-
-        // 出品情報データ
+        $categories = Category::factory(2)->sequence(
+            ['name' => 'スマートフォン'],
+            ['name' => '電子機器']
+        )->create();
+        $brand = Brand::factory()->create([
+            'category_id' => $categories->first()->id,
+            'name' => 'Apple',
+        ]);
+        $image = UploadedFile::fake()->image('test-item.jpg');
         $itemData = [
-            'category_id' => $category->id,
-            'condition' => '新品',
+            'category_ids' => $categories->pluck('id')->toArray(),
+            'brand_id' => $brand->id,
             'name' => 'テスト商品',
+            'color' => 'ブラック',
             'description' => 'これはテスト商品です。',
             'price' => 10000,
+            'image' => $image,
+            'condition' => '良好',
         ];
 
-        // 商品出品画面からPOSTリクエストを送信
-        $response = $this->actingAs($user)->post('/items', $itemData);
+        $response = $this->actingAs($user)->get('/sell');
+        $response->assertStatus(200);
+        $response->assertViewIs('sell.sell');
 
-        // ステータスコード302（リダイレクト）を確認
-        $response->assertStatus(302);
+        $this->actingAs($user)->post('/sell', $itemData);
+        $storedFilePath = 'item-images/' . $image->hashName();
 
-        // データベースに商品情報が保存されていることを確認
+        foreach (['スマートフォン', '電子機器'] as $categoryName) {
+            $this->assertDatabaseHas('categories', [
+                'name' => $categoryName,
+            ]);
+        }
+        $this->assertDatabaseHas('brands', [
+            'category_id' => $categories->first()->id,
+            'name' => 'Apple',
+        ]);
         $this->assertDatabaseHas('items', [
             'user_id' => $user->id,
-            'category_id' => $category->id,
-            'condition' => '新品',
+            'brand_id' => $brand->id,
             'name' => 'テスト商品',
+            'color' => 'ブラック',
             'description' => 'これはテスト商品です。',
             'price' => 10000,
+            'img_url' => 'storage/'.$storedFilePath,
+            'condition' => '良好',
         ]);
+        Storage::disk('public')->assertExists($storedFilePath);
     }
 }

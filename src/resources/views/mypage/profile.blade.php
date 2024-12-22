@@ -16,7 +16,9 @@
     @endif
         <div class="profile-form__avatar">
             <div class="profile-form__avatar-preview">
-                <img class="profile-form__avatar-img" id="avatar-preview" src="{{ $user->img_url ? asset('storage/' . $user->img_url) : asset('img/default-avatar.png') }}">
+                @if ($user->img_url)
+                    <img class="profile-form__avatar-img" id="avatar-preview" src="{{ asset('storage/' . $user->img_url) }}">
+                @endif
             </div>
             <div class="profile-form__avatar-upload">
                 <label class="profile-form__avatar-label" for="avatar">画像を選択する</label>

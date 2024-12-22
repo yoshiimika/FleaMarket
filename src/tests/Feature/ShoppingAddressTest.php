@@ -2,8 +2,8 @@
 
 namespace Tests\Feature;
 
-use App\Models\Product;
-use App\Models\Purchase;
+use App\Models\Address;
+use App\Models\Item;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -13,57 +13,64 @@ class ShoppingAddressTest extends TestCase
     use RefreshDatabase;
 
     /**
-     * 送付先住所変更画面で登録した住所が商品購入画面に反映されることをテスト.
+     * 送付先住所変更画面にて登録した住所が商品購入画面に反映されていることをテスト
      */
     public function test_shipping_address_is_reflected_on_purchase_screen()
     {
-        // ユーザーを作成しログイン状態にする
-        $user = User::factory()->create([
-            'address' => '初期住所',
+        $user = User::factory()->create();
+        Address::factory()->create([
+            'user_id' => $user->id,
+            'zip' => '100-0001',
+            'address' => '東京都千代田区既存の住所1-1-1',
+            'building' => '既存のビル'
+        ]);
+        $item = Item::factory()->create();
+
+        $this->actingAs($user)->put('/purchase/address/'. $item->id, [
+            'zip' => '150-0002',
+            'address' => '東京都渋谷区新しい住所123',
+            'building' => '新しいビル'
         ]);
 
-        // 送付先住所を変更
-        $updatedAddress = '東京都渋谷区新しい住所123';
-        $response = $this->actingAs($user)->post('/shipping-address/update', [
-            'address' => $updatedAddress,
-        ]);
+        $response = $this->actingAs($user)->get('/purchase/' . $item->id);
+        $response->assertStatus(200);
+        $response->assertViewIs('purchase.purchase');
 
-        // 住所変更が成功することを確認
-        $response->assertStatus(302); // リダイレクト確認
-        $this->assertDatabaseHas('users', [
-            'id' => $user->id,
-            'address' => $updatedAddress,
-        ]);
-
-        // 商品購入画面にアクセスして変更された住所が表示されることを確認
-        $product = Product::factory()->create();
-        $response = $this->actingAs($user)->get('/products/' . $product->id . '/purchase');
-
-        $response->assertSee($updatedAddress);
+        $response->assertSee('150-0002');
+        $response->assertSee('東京都渋谷区新しい住所123');
+        $response->assertSee('新しいビル');
     }
 
     /**
-     * 購入した商品に送付先住所が紐づいて登録されることをテスト.
+     * 購入した商品に送付先住所が紐づいて登録されることをテスト
      */
-    public function test_shipping_address_is_saved_with_purchased_product()
+    public function test_shipping_address_is_saved_with_purchased_item()
     {
-        // ユーザーと商品を作成
-        $user = User::factory()->create([
-            'address' => '東京都渋谷区テスト住所456',
+        $user = User::factory()->create();
+        Address::factory()->create([
+            'user_id' => $user->id,
+            'zip' => '100-0001',
+            'address' => '東京都千代田区既存の住所1-1-1',
+            'building' => '既存のマンション'
         ]);
-        $product = Product::factory()->create();
+        $item = Item::factory()->create();
 
-        // 商品を購入するリクエストを送信
-        $response = $this->actingAs($user)->post('/products/' . $product->id . '/purchase');
+        $this->actingAs($user)->put('/purchase/address/'. $item->id, [
+            'zip' => '150-0002',
+            'address' => '東京都渋谷区新しい住所123',
+            'building' => '新しいマンション'
+        ]);
 
-        // 購入データがデータベースに保存されていることを確認
+        $this->actingAs($user)->post('/purchase/' . $item->id, [
+            'payment_method' => 'card',
+        ]);
+
         $this->assertDatabaseHas('purchases', [
             'user_id' => $user->id,
-            'product_id' => $product->id,
-            'shipping_address' => '東京都渋谷区テスト住所456',
+            'item_id' => $item->id,
+            'shopping_address' => '150-0002',
+            'shopping_address' => '東京都渋谷区新しい住所123',
+            'shopping_building' => '新しいマンション'
         ]);
-
-        // ステータスコード200を確認
-        $response->assertStatus(200);
     }
 }

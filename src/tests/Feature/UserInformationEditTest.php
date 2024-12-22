@@ -2,8 +2,11 @@
 
 namespace Tests\Feature;
 
+use App\Models\Address;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class UserInformationEditTest extends TestCase
@@ -11,28 +14,36 @@ class UserInformationEditTest extends TestCase
     use RefreshDatabase;
 
     /**
-     * プロフィール変更画面で初期値が正しく表示されることをテスト.
+     * 変更項目が初期値として過去設定されていることをテスト
      */
     public function test_profile_edit_screen_displays_correct_initial_values()
     {
-        // テスト用のユーザーを作成
-        $user = User::factory()->create([
-            'name' => 'テストユーザー',
-            'img_url' => 'profile-image.jpg',
-            'zip' => '123-4567',
-            'address' => '東京都渋谷区テスト住所',
+        Storage::fake('public');
+
+        $user = User::factory()->create();
+        Address::factory()->create([
+            'user_id' => $user->id,
         ]);
 
-        // ユーザーをログイン状態にしてプロフィール変更画面にアクセス
-        $response = $this->actingAs($user)->get('/profile/edit');
+        $avatar = UploadedFile::fake()->image('profile-image.jpg');
+        $this->actingAs($user)->put('mypage/profile', [
+            'avatar' => $avatar,
+            'name' => '山田 太郎',
+            'zip' => '100-0001',
+            'address' => '東京都千代田区テスト住所1-1-1',
+            'building' => 'テストビル',
+        ]);
+        $storedFilePath = 'avatars/' . $avatar->hashName();
 
-        // ステータスコード200を確認
+        $response = $this->actingAs($user)->get('mypage/profile');
         $response->assertStatus(200);
+        $response->assertViewIs('mypage.profile');
 
-        // 各項目の初期値が正しく表示されていることを確認
-        $response->assertSee('テストユーザー');        // ユーザー名
-        $response->assertSee('profile-image.jpg');      // プロフィール画像URL
-        $response->assertSee('123-4567');               // 郵便番号
-        $response->assertSee('東京都渋谷区テスト住所'); // 住所
+        $response->assertSee(asset('storage/' . $storedFilePath));
+        $response->assertSee('山田 太郎');
+        $response->assertSee('100-0001');
+        $response->assertSee('東京都千代田区テスト住所1-1-1');
+        $response->assertSee('テストビル');
+        Storage::disk('public')->assertExists($storedFilePath);
     }
 }

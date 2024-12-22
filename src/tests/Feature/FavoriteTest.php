@@ -23,14 +23,15 @@ class FavoriteTest extends TestCase
         $response->assertStatus(200);
         $response->assertViewIs('item');
 
+        $this->assertFalse($item->favoriteByUsers()->where('user_id', $user->id)->exists());
         $this->assertEquals(0, $item->favorites_count);
 
-        $response = $this->actingAs($user)
+        $this->actingAs($user)
             ->followingRedirects()
             ->post('/item/' . $item->id . '/favorite');
 
-        $this->assertEquals(1, $item->refresh()->favorites_count);
         $this->assertTrue($item->favoriteByUsers()->where('user_id', $user->id)->exists());
+        $this->assertEquals(1, $item->refresh()->favorites_count);
     }
 
     /**
@@ -71,14 +72,14 @@ class FavoriteTest extends TestCase
         $response->assertStatus(200);
         $response->assertViewIs('item');
 
-        $this->assertEquals(1, $item->refresh()->favorites_count);
         $this->assertTrue($item->favoriteByUsers()->where('user_id', $user->id)->exists());
+        $this->assertEquals(1, $item->refresh()->favorites_count);
 
-        $response = $this->actingAs($user)
+        $this->actingAs($user)
             ->followingRedirects()
             ->post('/item/' . $item->id . '/favorite');
 
-        $this->assertEquals(0, $item->refresh()->favorites_count);
         $this->assertFalse($item->favoriteByUsers()->where('user_id', $user->id)->exists());
+        $this->assertEquals(0, $item->refresh()->favorites_count);
     }
 }
