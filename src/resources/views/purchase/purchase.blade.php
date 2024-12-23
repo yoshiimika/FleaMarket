@@ -26,7 +26,7 @@
             @csrf
                 <select class="purchase-method__select" id="payment_method_select" name="payment_method">
                     <option value="" disabled selected>選択してください</option>
-                    <option value="card" {{ old('payment_method') == 'card' ? 'selected' : '' }}>クレジットカード</option>
+                    <option value="card" {{ old('payment_method') == 'card' ? 'selected' : '' }}>カード支払い</option>
                     <option value="convenience" {{ old('payment_method') == 'convenience' ? 'selected' : '' }}>コンビニ払い</option>
                 </select>
                 <br>

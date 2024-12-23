@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const selectedPaymentMethod = event.target.value;
 
             if (selectedPaymentMethod === 'card') {
-                selectedPaymentMethodDisplay.textContent = 'クレジットカード';
+                selectedPaymentMethodDisplay.textContent = 'カード支払い';
             } else if (selectedPaymentMethod === 'convenience') {
                 selectedPaymentMethodDisplay.textContent = 'コンビニ払い';
             } else {
