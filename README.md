@@ -49,8 +49,8 @@
 - javascript 22.11.0
 
 ## テーブル設計
-![Uploading スクリーンショット 2024-12-24 12.52![Uploading スクリーンショット 2024-12-24 12.53.14.png…]()
-.52.png…]()
+<img width="599" alt="スクリーンショット 2024-12-24 12 52 52" src="https://github.com/user-attachments/assets/ca18f15b-6944-4ada-9d47-a88c052e18f4" />
+<img width="599" alt="スクリーンショット 2024-12-24 12 53 14" src="https://github.com/user-attachments/assets/e70b5cde-6c5b-482a-8e04-acdb9aeeebd4" />
 
 ## ER図
 ![ER_diagram](https://github.com/user-attachments/assets/1a56a192-1216-4aa4-a921-fc38c43b5feb)
@@ -216,7 +216,7 @@ php artisan db:seed
 ```
 
 ## ダミーデータの説明
-ユーザー　　email: test@test.com
+ユーザー　　email: test@test.com  
 　　　　　　password: password
 
 ## テスト
