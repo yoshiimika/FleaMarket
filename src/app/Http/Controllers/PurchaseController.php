@@ -31,7 +31,7 @@ class PurchaseController extends Controller
             return $this->success($item_id);
         }
 
-        $stripe = new StripeClient(env('STRIPE_SECRET'));
+        $stripe = new StripeClient(config('services.stripe.secret'));
         $session = $stripe->checkout->sessions->create([
             'payment_method_types' => [$paymentMethod === 'card' ? 'card' : 'konbini'],
             'line_items' => [[
