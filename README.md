@@ -184,7 +184,10 @@ default-time-zone = 'Asia/Tokyo'
             - 8080:80
 ```
 
-7.docker-compose up -d --build
+7.コンテナの作成・起動
+```
+docker-compose up -d --build
+```
 
 ## Laravel環境開発
 
