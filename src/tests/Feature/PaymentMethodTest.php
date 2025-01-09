@@ -33,6 +33,6 @@ class PaymentMethodTest extends TestCase
         ]);
 
         $responseContent = $this->actingAs($user)->get('/purchase/' . $item->id)->getContent();
-        $this->assertStringContainsString('クレジットカード', $responseContent);
+        $this->assertStringContainsString('カード支払い', $responseContent);
     }
 }

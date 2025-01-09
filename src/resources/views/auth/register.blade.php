@@ -22,7 +22,7 @@
         </div>
         <div class="register-form__group">
             <label class="register-form__label" for="email">メールアドレス</label>
-            <input class="register-form__input" id="email" name="email" type="email" value="{{old('email')}}">
+            <input class="register-form__input" id="email" name="email" type="text" value="{{old('email')}}">
         </div>
         <div class="error__group">
             @error('email')
