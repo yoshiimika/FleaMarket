@@ -26,10 +26,10 @@
         </div>
     </div>
     <div class="mypage-pages">
-        <a class="mypage-pages__page {{ $page === 'sell' ? 'mypage-pages__page--active' : '' }}" href="{{ route('profile', ['page' => 'sell']) }}">
+        <a class="mypage-pages__page {{ $page === 'sell' ? 'mypage-pages__page--active' : '' }}" href="{{ route('profile.show', ['page' => 'sell']) }}">
             出品した商品
         </a>
-        <a class="mypage-pages__page {{ $page === 'buy' ? 'mypage-pages__page--active' : '' }}" href="{{ route('profile', ['page' => 'buy']) }}">
+        <a class="mypage-pages__page {{ $page === 'buy' ? 'mypage-pages__page--active' : '' }}" href="{{ route('profile.show', ['page' => 'buy']) }}">
             購入した商品
         </a>
     </div>

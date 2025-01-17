@@ -1,0 +1,138 @@
+.edit-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.edit-title {
+    text-align: center;
+}
+
+.edit-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.edit-form__label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.error__message {
+    color: red;
+}
+
+.edit-form__image-upload {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 2px dashed #ccc;
+    padding: 50px;
+    border-radius: 5px;
+    gap: 20px;
+}
+
+.edit-form__image-input {
+    display: none;
+}
+
+.edit-form__image-button {
+    display: inline-block;
+    color: #ff4d4f;
+    padding: 10px 20px;
+    border: 1px solid #ff4d4f;
+    border-radius: 5px;
+    background-color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.edit-form__image-button:hover {
+    background-color: #ff4d4f;
+    color: #fff;
+}
+
+.edit-form__image-preview-img {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    object-fit: cover;
+}
+
+.edit-form__section-title {
+    border-bottom: 1px solid #ccc;
+}
+
+.edit-form__categories {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 40px 20px;
+    gap: 30px;
+}
+
+.edit-form__category {
+    padding: 10px 20px;
+    border: 1px solid #ff4d4f;
+    border-radius: 20px;
+    background-color: #fff;
+    color: #ff4d4f;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.edit-form__category--active {
+    background-color: #ff4d4f;
+    color: #fff;
+    border-color: #ff4d4f;
+}
+
+.edit-form__category-input {
+    display: none;
+}
+
+.edit-form__select,
+.edit-form__input,
+.edit-form__textarea {
+    width: 100%;
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+}
+
+.edit-form__price {
+    position: relative;
+}
+
+.edit-form__price-symbol {
+    position: absolute;
+    top: 5px;
+    left: 10px;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.edit-form__price-input {
+    padding-left: 25px;
+}
+
+.edit-form__submit-button {
+    width: 100%;
+    padding: 10px;
+    font-size: 1em;
+    color: #fff;
+    background-color: #ff5a5a;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.edit-form__submit-button:hover {
+    background-color: #e03a3e;
+}

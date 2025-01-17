@@ -46,16 +46,19 @@
                 <span class="item-icons__count">{{ $item->comments_count }}</span>
             </div>
         </div>
-        <a class="item-button__purchase {{ $item->is_sold || auth()->id() === $item->user_id ? 'item-button__purchase--disabled' : '' }}"
-            href="{{ !$item->is_sold && auth()->id() !== $item->user_id ? route('purchase.show', $item->id) : '#' }}">
-            @if (auth()->id() === $item->user_id)
-                出品者は購入できません
-            @elseif ($item->is_sold)
+        @if ($item->is_sold)
+            <a class="item-button__purchase item-button__purchase--disabled">
                 この商品は売り切れです
-            @else
+            </a>
+        @elseif (auth()->id() === $item->user_id)
+            <a class="item-button__edit" href="{{ route('sell.edit', $item->id) }}">
+                商品情報を編集する
+            </a>
+        @else
+            <a class="item-button__purchase" href="{{ route('purchase.show', $item->id) }}">
                 購入手続きへ
-            @endif
-        </a>
+            </a>
+        @endif
 
         <div class="item-description">
             <h2 class="item-description__title">

@@ -68,7 +68,7 @@ class UserController extends Controller
         $user = auth()->user();
         $this->saveUserProfile($user, $request);
         $this->saveUserAddress($user, $request);
-        return redirect()->route('profile')
+        return redirect()->route('profile.show')
             ->with('success', 'プロフィールが更新されました');
     }
 

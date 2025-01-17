@@ -99,6 +99,33 @@
     color: #333;
 }
 
+.item-button__edit {
+    display: inline-block;
+    width: 100%;
+    padding: 10px;
+    font-size: 1em;
+    color: #fff;
+    background-color: #ff5a5a;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    text-decoration: none;
+    text-align: center;
+    margin-top: 20px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.item-button__edit:hover {
+    background-color: #e63946;
+    transform: scale(1.05);
+}
+
+.item-button__edit:active {
+    background-color: #d62828;
+    transform: scale(0.95);
+}
+
 .item-button__purchase {
     display: inline-block;
     width: 100%;

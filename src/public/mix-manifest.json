@@ -4,5 +4,7 @@
     "/js/category-brand-handler.js": "/js/category-brand-handler.js",
     "/js/purchase.js": "/js/purchase.js",
     "/js/avatar-preview.js": "/js/avatar-preview.js",
+    "/js/edit-image-preview.js": "/js/edit-image-preview.js",
+    "/js/edit-category-brand-handler.js": "/js/edit-category-brand-handler.js",
     "/css/app.css": "/css/app.css"
 }

@@ -26,44 +26,52 @@ Route::get('/', [ItemController::class, 'index'])
 Route::get('/search', [ItemController::class, 'search'])
 ->name('item.search');
 
-Route::prefix('item')->group(function () {
+Route::prefix('item')->name('item.')->group(function () {
     Route::get('/{item_id}', [ItemController::class, 'show'])
-    ->name('item.show');
+    ->name('show');
     Route::middleware(['auth', 'verified'])->post('/{item_id}/favorite', [FavoriteController::class, 'toggle'])
-    ->name('item.favorite');
+    ->name('favorite');
     Route::middleware(['auth', 'verified'])->post('/{item_id}/comment', [CommentController::class, 'store'])
-    ->name('item.comment.store');
+    ->name('comment.store');
 });
 
 Route::middleware(['auth', 'verified'])->prefix('purchase')->group(function () {
-    Route::get('/{item_id}', [PurchaseController::class, 'showPurchaseForm'])
-    ->name('purchase.show');
-    Route::post('/{item_id}', [PurchaseController::class, 'purchase'])
-    ->name('purchase');
-    Route::get('/success/{item_id}', [PurchaseController::class, 'success'])
-    ->name('purchase.success');
-    Route::get('/cancel/{item_id}', [PurchaseController::class, 'cancel'])
-    ->name('purchase.cancel');
-    Route::get('/address/{item_id}', [AddressController::class, 'editShoppingAddress'])
-    ->name('address.edit');
-    Route::put('/address/{item_id}', [AddressController::class, 'updateShoppingAddress'])
-    ->name('address.update');
+    Route::name('purchase.')->group(function () {
+        Route::get('/{item_id}', [PurchaseController::class, 'showPurchaseForm'])
+        ->name('show');
+        Route::post('/{item_id}', [PurchaseController::class, 'purchase'])
+        ->name('store');
+        Route::get('/success/{item_id}', [PurchaseController::class, 'success'])
+        ->name('success');
+        Route::get('/cancel/{item_id}', [PurchaseController::class, 'cancel'])
+        ->name('cancel');
+    });
+    Route::name('address.')->group(function () {
+        Route::get('/address/{item_id}', [AddressController::class, 'editShoppingAddress'])
+        ->name('edit');
+        Route::put('/address/{item_id}', [AddressController::class, 'updateShoppingAddress'])
+        ->name('update');
+    });
 });
 
-Route::middleware(['auth', 'verified'])->prefix('sell')->group(function () {
+Route::middleware(['auth', 'verified'])->prefix('sell')->name('sell.')->group(function () {
     Route::get('/', [ListingController::class, 'create'])
-    ->name('sell');
+    ->name('create');
     Route::post('/', [ListingController::class, 'store'])
-    ->name('sell.store');
+    ->name('store');
+    Route::get('/{id}/edit', [ListingController::class, 'edit'])
+    ->name('edit');
+    Route::patch('/{id}/update', [ListingController::class, 'update'])
+    ->name('update');
 });
 
-Route::middleware(['auth', 'verified'])->prefix('mypage')->group(function () {
+Route::middleware(['auth', 'verified'])->prefix('mypage')->name('profile.')->group(function () {
     Route::get('/', [UserController::class, 'showProfile'])
-    ->name('profile');
-    Route::get('/profile', [UserController::class, 'editProfile'])
-    ->name('profile.edit');
+    ->name('show');
     Route::post('/profile', [UserController::class, 'createProfile'])
-    ->name('profile.create');
+    ->name('create');
+    Route::get('/profile', [UserController::class, 'editProfile'])
+    ->name('edit');
     Route::put('/profile', [UserController::class, 'updateProfile'])
-    ->name('profile.update');
+    ->name('update');
 });

@@ -22,7 +22,7 @@
             <h2 class="purchase-method__title">
                 支払い方法
             </h2>
-            <form action="{{ route('purchase', $item->id) }}" method="POST">
+            <form action="{{ route('purchase.store', $item->id) }}" method="POST">
             @csrf
                 <select class="purchase-method__select" id="payment_method_select" name="payment_method">
                     <option value="" disabled selected>選択してください</option>

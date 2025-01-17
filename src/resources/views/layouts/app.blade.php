@@ -35,8 +35,8 @@
                     @else
                         <a class="header__menu-item" href="{{ route('login') }}">ログイン</a>
                     @endif
-                    <a class="header__menu-item" href="{{ route('profile') }}">マイページ</a>
-                    <a class="header__menu-item header__menu-item--sell" href="{{ route('sell') }}">出品</a>
+                    <a class="header__menu-item" href="{{ route('profile.show') }}">マイページ</a>
+                    <a class="header__menu-item header__menu-item--sell" href="{{ route('sell.create') }}">出品</a>
                 </div>
             @endunless
         </header>
